@@ -10,4 +10,5 @@ Install Steps:
 4. Do a test run by running bbs_announce.pl
 5. If all looks good set up a cron job to run no more often than once per day - please no spam!
 Here is a example cronjob entry:
+
 	01 01 * * * /sbbs/exec/bbs_announce.pl
