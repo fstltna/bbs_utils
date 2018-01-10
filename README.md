@@ -1,5 +1,6 @@
 # BBS Utilities
 Command-line utilities for the SBBS BBS software
+Official support sites: [Official Github Repo](https://github.com/fstltna/bbs_utils) - [Official Forum](https://synchronetbbs.org/index.php/forum/sysops) 
 
 
 Included Utilities:
