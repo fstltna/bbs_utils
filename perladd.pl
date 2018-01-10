@@ -10,7 +10,7 @@ use Storable;		# For loading & saving variables
 my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
-my $VERSION="1.11";
+my $VERSION="1.12";
 
 # Init vars - don't change anything below here
 my $DEST_DIR="";
