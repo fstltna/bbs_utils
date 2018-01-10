@@ -20,4 +20,6 @@ foreach my $curgroup (@GROUPS)
 	system("$JSEXEC $curgroup");
 	print "- DONE\n";
 }
+
+print "*** Please don't run this more than once per day!\n";
 exit 0;
