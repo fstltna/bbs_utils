@@ -16,9 +16,9 @@ my $JSEXEC = "jsexec postmsg.js -i\"$MSGBODYFILE\" -tALL -f\"$BBSOWNER\" -s\"$BB
 foreach my $curgroup (@GROUPS)
 {
 	#print "$JSEXEC $curgroup\n";
-	print "Sending to: $curgroup ";
+	print "Sending to: $curgroup\n";
 	system("$JSEXEC $curgroup");
-	print "- DONE\n";
+	print "Sending to $curgroup: DONE\n";
 }
 
 print "*** Please don't run this more than once per day!\n";
