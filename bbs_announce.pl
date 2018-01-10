@@ -12,12 +12,12 @@ my $MSGBODYFILE = "/sbbs/exec/Announce.txt";
 # == No changes below here
 my $JSEXEC = "jsexec postmsg.js -i\"$MSGBODYFILE\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\"";
 
-# Read in message content
+# Loop for each group
 foreach my $curgroup (@GROUPS)
 {
-	print "$JSEXEC $curgroup\n";
+	#print "$JSEXEC $curgroup\n";
 	print "Sending to: $curgroup ";
-	#system("$JSEXEC $curgroup");
+	system("$JSEXEC $curgroup");
 	print "- DONE\n";
 }
 exit 0;

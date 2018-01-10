@@ -1,4 +1,4 @@
-# bbs_utils
+# BBS Utilities
 Command-line utilities for the SBBS BBS software
 
 
