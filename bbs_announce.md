@@ -12,3 +12,16 @@ Install Steps:
 Here is a example cronjob entry:
 
 	01 01 * * * /sbbs/exec/bbs_announce.pl
+
+Getting Message Group IDs:
+==
+1. Run scfg
+2. Go to "Message Areas"
+3. Choose your message group
+4. Select a entry
+5. Go to "Message Sub-boards"
+6. Choose your board and press [ENTER]
+7. Note the entry for "Internal Code" - this is what you need to put in bbs_announce.pl
+8. Repeat for any other boards you want to post to.
+9. Exit scfg
+10. All done!
