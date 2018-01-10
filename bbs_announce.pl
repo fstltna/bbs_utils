@@ -12,6 +12,11 @@ my $MSGBODYFILE = "/sbbs/exec/Announce.txt";
 # == No changes below here
 my $JSEXEC = "jsexec postmsg.js -i\"$MSGBODYFILE\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\"";
 
+my $VERSION = "1.0";
+
+print "Running bbs_announce $VERSION\n";
+print "========================\n";
+
 # Loop for each group
 foreach my $curgroup (@GROUPS)
 {
