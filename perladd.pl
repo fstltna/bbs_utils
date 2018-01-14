@@ -10,7 +10,8 @@ use Storable;		# For loading & saving variables
 my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
-my $VERSION="1.12";
+my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
+my $VERSION="1.13";
 
 # Init vars - don't change anything below here
 my $DEST_DIR="";
@@ -36,6 +37,8 @@ else
 	print("$SEEN_FILE not found\n");
 	%SEEN_HASH = ();
 }
+
+open(OUTF, ">>$NEWFILES") || die "Unable to open output file $NEWFILES";
 
 sub ListDirs
 {
@@ -112,6 +115,7 @@ sub CopyFile
 	}
 	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'");
 	#print("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'\n");
+	print(OUTF "$SOURCE_DIR|$CUR_FILE|$DEST_DIR|$dest_file\n");
 }
 
 # quit unless we have the correct number of command-line args
@@ -120,12 +124,14 @@ if ($num_args != 2) {
     print "Incorrect number of arguments\n";
     print "Usage: perladd.pl <BBSFILEDIR> link\n";
     ListDirs();
+    close(OUTF);
     exit;
 }
 if ($ARGV[1] ne "link" && $ARGV[1] ne "existing") {
     print "Incorrect action\n";
     print "Usage: perladd.pl <BBSFILEDIR> link\n";
     ListDirs();
+    close(OUTF);
     exit;
 }
 $BBS_DIR=$ARGV[0];
@@ -139,6 +145,7 @@ if (!-d $DEST_DIR)
 	# No, so list existing directories
 	print "Destination directory not found\n";
 	ListDirs();
+        close(OUTF);
 	exit;
 }
 
@@ -192,4 +199,5 @@ closedir $dh;
 store (\%SEEN_HASH, $SEEN_FILE);
 print("Saved seen file hash to $SEEN_FILE\n");
 
+close(OUTF);
 exit 0;
