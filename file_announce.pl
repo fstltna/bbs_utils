@@ -65,4 +65,5 @@ close(TEMPFILE);
 # Post the message to the group
 system("$JSEXEC");
 unlink "$TempName" || die "Unable to delete temp file $TempName";
+unlink "$NEWFILESFILE" || die "Unable to delete list of files $NEWFILESFILE";
 exit 0;
