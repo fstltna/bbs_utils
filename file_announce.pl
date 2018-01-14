@@ -38,26 +38,30 @@ open(INPF, "<$MSGBODYBOTTOMFILE") || die "Unable to open $MSGBODYBOTTOMFILE for 
 close(INPF);
 
 open(TEMPFILE, ">$TempName") || die "Unable to create temp file $TempName";
+
+# Post header to the temp file
 print (TEMPFILE $content);
 
+# Read the list of files added
 open(NEWFILES, "<$NEWFILESFILE") || die "Unable to open $NEWFILESFILE for input";
 
 my $csv = Text::CSV->new();
-#$csv = Text::CSV->setDelimiter(',');
 
-# Loop for each file in the line
+# Loop for each line in the file
 while(<NEWFILES>)
 {
 	chop;
 	my $status = $csv->parse($_);
 	($Field1, $LongName, $DestFolder, $ShortName) = $csv->fields();
-	print "Proccessing file $LongName\n";
 	$DestFolder = substr ($DestFolder, 16);
+	print "Proccessing file $LongName copied to $DestFolder\n";
 	print (TEMPFILE "$LongName - $ShortName in $DestFolder\n");
 }
+# Post footer to the temp file
 print (TEMPFILE $contentbottom);
 close(NEWFILES);
 close(TEMPFILE);
 
-#	system("$JSEXEC");
+# Post the message to the group
+#system("$JSEXEC");
 exit 0;
