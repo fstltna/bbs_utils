@@ -115,7 +115,7 @@ sub CopyFile
 	}
 	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'");
 	#print("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'\n");
-	print(OUTF "$SOURCE_DIR|$CUR_FILE|$DEST_DIR|$dest_file\n");
+	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\"\n");
 }
 
 # quit unless we have the correct number of command-line args
