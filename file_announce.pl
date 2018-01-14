@@ -2,19 +2,25 @@
 #
 # -- Posts a file announcement to the desired sub-board
 
-my $BBSSUBJ = "AmigaCity BBS - BBS For The Amiga";
+use Text::CSV;
+
+my $BBSSUBJ = "AmigaCity BBS - New Amiga Files";
 my $BBSOWNER = "AmigaCity Admin";
-my @GROUPS = ("DOVE-OPS");
+my $GROUP = "AMY-FILEANNO";
+my $TempName = "/tmp/fileann.tmp";
 
 # Probably no change for this
 my $MSGBODYFILE = "/sbbs/exec/FilePost.txt";
+my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 
 # == No changes below here
-my $JSEXEC = "jsexec postmsg.js -i\"$MSGBODYFILE\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\"";
+my $JSEXEC = "jsexec postmsg.js -i\"$TempName\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\" $GROUP";
 my $content = "";
-my $VERSION = "1.1";
+my $contentbottom = "";
+my $VERSION = "1.0";
+my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 
-print "Running bbs_announce $VERSION\n";
+print "Running file_announce $VERSION\n";
 print "========================\n";
 
 open(INPF, "<$MSGBODYFILE") || die "Unable to open $MSGBODYFILE for input";
@@ -24,16 +30,34 @@ open(INPF, "<$MSGBODYFILE") || die "Unable to open $MSGBODYFILE for input";
 }
 close(INPF);
 
-print "$content\n";
-
-# Loop for each group
-foreach my $curgroup (@GROUPS)
+open(INPF, "<$MSGBODYBOTTOMFILE") || die "Unable to open $MSGBODYBOTTOMFILE for input";
 {
-	#print "$JSEXEC $curgroup\n";
-	print "Sending to: $curgroup\n";
-#	system("$JSEXEC $curgroup");
-	print "Sending to $curgroup: DONE\n";
+        local $/;
+        $contentbottom = <INPF>;
 }
+close(INPF);
 
-print "*** Please don't run this more than once per day!\n";
+open(TEMPFILE, ">$TempName") || die "Unable to create temp file $TempName";
+print (TEMPFILE $content);
+
+open(NEWFILES, "<$NEWFILESFILE") || die "Unable to open $NEWFILESFILE for input";
+
+my $csv = Text::CSV->new();
+#$csv = Text::CSV->setDelimiter(',');
+
+# Loop for each file in the line
+while(<NEWFILES>)
+{
+	chop;
+	my $status = $csv->parse($_);
+	($Field1, $LongName, $DestFolder, $ShortName) = $csv->fields();
+	print "Proccessing file $LongName\n";
+	$DestFolder = substr ($DestFolder, 16);
+	print (TEMPFILE "$LongName - $ShortName in $DestFolder\n");
+}
+print (TEMPFILE $contentbottom);
+close(NEWFILES);
+close(TEMPFILE);
+
+#	system("$JSEXEC");
 exit 0;
