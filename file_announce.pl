@@ -3,6 +3,7 @@
 # -- Posts a file announcement to the desired sub-board
 
 use Text::CSV;
+use Math::Round;
 
 my $BBSSUBJ = "AmigaCity BBS - New Amiga Files";
 my $BBSOWNER = "AmigaCity Admin";
@@ -52,10 +53,12 @@ while(<NEWFILES>)
 {
 	chop;
 	my $status = $csv->parse($_);
-	($Field1, $LongName, $DestFolder, $ShortName) = $csv->fields();
+	($Field1, $LongName, $DestFolder, $ShortName, $FileSize) = $csv->fields();
+	$FileSize = round($FileSize / 1024);
 	$DestFolder = substr ($DestFolder, 16);
 	print "Proccessing file $LongName copied to $DestFolder\n";
-	print (TEMPFILE "$LongName - $ShortName in $DestFolder\n");
+	my $OutputStr = substr($LongName . "                                                  ", 0, 25) . " " . substr($ShortName . "             ", 0, 13) . " in \"$DestFolder\" ($FileSize KB)";
+	print (TEMPFILE "$OutputStr\n");
 }
 # Post footer to the temp file
 print (TEMPFILE $contentbottom);
