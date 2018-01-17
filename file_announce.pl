@@ -18,7 +18,7 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 my $JSEXEC = "jsexec postmsg.js -i\"$TempName\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\" $GROUP";
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.0";
+my $VERSION = "1.1";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 
 print "Running file_announce $VERSION\n";
