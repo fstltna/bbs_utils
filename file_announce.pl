@@ -18,7 +18,7 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 my $JSEXEC = "jsexec postmsg.js -i\"$TempName\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\" $GROUP";
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.1";
+my $VERSION = "1.2";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 
 print "Running file_announce $VERSION\n";
@@ -47,18 +47,79 @@ print (TEMPFILE $content);
 open(NEWFILES, "<$NEWFILESFILE") || die "Unable to open $NEWFILESFILE for input";
 
 my $csv = Text::CSV->new();
+my $FilesWorked = 0;
 
 # Loop for each line in the file
 while(<NEWFILES>)
 {
 	chop;
 	my $status = $csv->parse($_);
+	my $Line2Out = "";
+	my $Line3Out = "";
+	my $Line4Out = "";
+	my $Line5Out = "";
+	my $Line6Out = "";
+	my $Line7Out = "";
 	($Field1, $LongName, $DestFolder, $ShortName, $FileSize) = $csv->fields();
 	$FileSize = round($FileSize / 1024);
 	$DestFolder = substr ($DestFolder, 16);
 	print "Proccessing file $LongName copied to $DestFolder\n";
-	my $OutputStr = substr($LongName . "                                                  ", 0, 25) . " " . substr($ShortName . "             ", 0, 13) . " in \"$DestFolder\" ($FileSize KB)";
+	my $LongLength= length($LongName);
+	if ($LongLength > 25)
+	{
+		$Line2Out = substr($LongName . "                                                  ", 25, 25) . "|";
+		if ($LongLength > 50)
+		{
+			$Line3Out = substr($LongName . "                                                  ", 50, 25) . "|";
+			if ($LongLength > 75)
+			{
+				$Line4Out = substr($LongName . "                                                  ", 75, 25) . "|";
+				if ($LongLength > 100)
+				{
+					$Line5Out = substr($LongName . "                                                  ", 100, 25) . "|";
+					if ($LongLength > 125)
+					{
+						$Line6Out = substr($LongName . "                                                  ", 125, 25) . "|";
+						if ($LongLength > 150)
+						{
+							$Line7Out = substr($LongName . "                                                  ", 50, 25) . "|";
+						}
+					}
+				}
+			}
+		}
+	}
+	my $OutputStr = substr($LongName . "                                                  ", 0, 25) . "|" . substr($ShortName . "             ", 0, 13) . " | in \"$DestFolder\" ($FileSize KB)";
+	if ($FilesWorked > 0)
+	{
+		print (TEMPFILE "---\n");
+	}
+	$FilesWorked++;
 	print (TEMPFILE "$OutputStr\n");
+	if ($Line2Out ne "")
+	{
+		print (TEMPFILE "$Line2Out\n");
+	}
+	if ($Line3Out ne "")
+	{
+		print (TEMPFILE "$Line3Out\n");
+	}
+	if ($Line4Out ne "")
+	{
+		print (TEMPFILE "$Line4Out\n");
+	}
+	if ($Line5Out ne "")
+	{
+		print (TEMPFILE "$Line5Out\n");
+	}
+	if ($Line6Out ne "")
+	{
+		print (TEMPFILE "$Line6Out\n");
+	}
+	if ($Line7Out ne "")
+	{
+		print (TEMPFILE "$Line7Out\n");
+	}
 }
 # Post footer to the temp file
 print (TEMPFILE $contentbottom);
