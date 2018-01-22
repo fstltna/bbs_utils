@@ -26,5 +26,7 @@ Host: AmigaCity.xyz       Port: 23       Website: https://AmigaCity.xyz
 ==========================================================================
               * Over 2,600 Amiga files for downloading
         * Over 100 door games, most not available elsewhere
+     * https://AmigaCity.xyz/radio.html - Amiga game music 24/7
+  * https://AmigaCityLaptops.com - Laptops & Handhelds that run AmigaOS
            * We also support https://SynchronetBBS.org !
        * Join our Slack team at: http://synchronetbbs.org:3000/
