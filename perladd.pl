@@ -23,6 +23,7 @@ my $DESIRED_ACTION="";
 my $NAME_LENGTH="";
 my $SOURCE_DIR="";
 my %SEEN_HASH=();
+my $REQDESC=0;
 
 print("perladd.pl - Version $VERSION\n");
 print("Checking for saved files hash\n");
@@ -116,6 +117,14 @@ sub CopyFile
 	my $full_dest_file = "$DEST_DIR/$dest_file";
 	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'");
 	my $filesize = -s $full_dest_file;
+	my $LONG_PLUS_DESC="";
+	if ($REQDESC)
+	{
+		print "Enter description for $CUR_FILE: ";
+		$LONG_PLUS_DESC = <STDIN>;
+		chomp $LONG_PLUS_DESC;
+		$CUR_FILE = "$CUR_FILE - $LONG_PLUS_DESC";
+	}
 	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\",\"$filesize\"\n");
 }
 
@@ -123,14 +132,20 @@ sub CopyFile
 my $num_args = $#ARGV + 1;
 if ($num_args != 2) {
     print "Incorrect number of arguments\n";
-    print "Usage: perladd.pl <BBSFILEDIR> link\n";
+    print "Usage: perladd.pl <BBSFILEDIR> [link|long|existing]\n";
+    print "\texisting - use existing files\n";
+    print "\tlink - links rather than using existing files\n";
+    print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     ListDirs();
     close(OUTF);
     exit;
 }
-if ($ARGV[1] ne "link" && $ARGV[1] ne "existing") {
+if ($ARGV[1] ne "link" && $ARGV[1] ne "long" && $ARGV[1] ne "existing") {
     print "Incorrect action\n";
-    print "Usage: perladd.pl <BBSFILEDIR> link\n";
+    print "Usage: perladd.pl <BBSFILEDIR> [link|long|existing]\n";
+    print "\texisting - use existing files\n";
+    print "\tlink - links rather than using existing files\n";
+    print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     ListDirs();
     close(OUTF);
     exit;
@@ -150,6 +165,11 @@ if (!-d $DEST_DIR)
 	exit;
 }
 
+if ($DESIRED_ACTION eq "long")
+{
+	$REQDESC=-1;
+	$DESIRED_ACTION = "link";
+}
 if ($DESIRED_ACTION eq "link")
 {
 	$target_dir = ".";
