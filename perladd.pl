@@ -11,7 +11,7 @@ my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.15";
+my $VERSION="1.16";
 
 # Init vars - don't change anything below here
 my $DEST_DIR="";
@@ -115,7 +115,6 @@ sub CopyFile
 		system($link_cmd);
 	}
 	my $full_dest_file = "$DEST_DIR/$dest_file";
-	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'");
 	my $filesize = -s $full_dest_file;
 	my $LONG_PLUS_DESC="";
 	if ($REQDESC)
@@ -125,6 +124,7 @@ sub CopyFile
 		chomp $LONG_PLUS_DESC;
 		$CUR_FILE = "$CUR_FILE - $LONG_PLUS_DESC";
 	}
+	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'");
 	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\",\"$filesize\"\n");
 }
 
