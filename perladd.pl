@@ -12,6 +12,7 @@ my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
 my $VERSION="1.16";
+my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
 my $DEST_DIR="";
@@ -124,7 +125,12 @@ sub CopyFile
 		chomp $LONG_PLUS_DESC;
 		$CUR_FILE = "$CUR_FILE - $LONG_PLUS_DESC";
 	}
-	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$CUR_FILE'");
+	my $BBS_DESC = $CUR_FILE;
+	if (length($BBS_DESC) > $BBS_DESC_LEN)
+	{
+		$BBS_DESC = substr($CUR_FILE, 0, $BBS_DESC_LEN - 1);
+	}
+	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$BBS_DESC'");
 	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\",\"$filesize\"\n");
 }
 
