@@ -130,7 +130,7 @@ sub CopyFile
 	{
 		$BBS_DESC = substr($CUR_FILE, 0, $BBS_DESC_LEN - 1);
 	}
-	system("$ADD_PROG $BBS_DIR -cftin $dest_file '$BBS_DESC'");
+	system("$ADD_PROG $BBS_DIR -cftin $dest_file \"$BBS_DESC\"");
 	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\",\"$filesize\"\n");
 }
 
