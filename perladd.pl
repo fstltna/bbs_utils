@@ -11,7 +11,7 @@ my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.16";
+my $VERSION="1.17";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
@@ -25,6 +25,7 @@ my $NAME_LENGTH="";
 my $SOURCE_DIR="";
 my %SEEN_HASH=();
 my $REQDESC=0;
+my $FILEIDFILE="files.bbs";
 
 print("perladd.pl - Version $VERSION\n");
 print("Checking for saved files hash\n");
@@ -118,6 +119,7 @@ sub CopyFile
 	my $full_dest_file = "$DEST_DIR/$dest_file";
 	my $filesize = -s $full_dest_file;
 	my $LONG_PLUS_DESC="";
+	my $LongFileName=$CUR_FILE;
 	if ($REQDESC)
 	{
 		print "Enter description for $CUR_FILE: ";
@@ -130,8 +132,13 @@ sub CopyFile
 	{
 		$BBS_DESC = substr($CUR_FILE, 0, $BBS_DESC_LEN - 1);
 	}
-	system("$ADD_PROG $BBS_DIR -cftin $dest_file \"$BBS_DESC\"");
+	open(my  $FILEID, ">", "$DEST_DIR/$FILEIDFILE") or die "Could not open file '$DEST_DIR/$FILEIDFILE' $!";
+	print($FILEID "$dest_file $LongFileName\n              $BBS_DESC\n");
+	close($FILEID);
+	#system("$ADD_PROG $BBS_DIR -cftinz $dest_file \"$LongFileName\"");
+	system("$ADD_PROG $BBS_DIR -i \"+$DEST_DIR/$FILEIDFILE\"");
 	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\",\"$filesize\"\n");
+	unlink("$DEST_DIR/$FILEIDFILE");
 }
 
 # quit unless we have the correct number of command-line args
@@ -139,9 +146,9 @@ my $num_args = $#ARGV + 1;
 if ($num_args != 2) {
     print "Incorrect number of arguments\n";
     print "Usage: perladd.pl <BBSFILEDIR> [link|long|existing]\n";
+    print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     print "\texisting - use existing files\n";
     print "\tlink - links rather than using existing files\n";
-    print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     ListDirs();
     close(OUTF);
     exit;
