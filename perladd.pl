@@ -133,9 +133,9 @@ sub CopyFile
 		$BBS_DESC = substr($CUR_FILE, 0, $BBS_DESC_LEN - 1);
 	}
 	open(my  $FILEID, ">", "$DEST_DIR/$FILEIDFILE") or die "Could not open file '$DEST_DIR/$FILEIDFILE' $!";
-	print($FILEID "$dest_file $LongFileName\n              $BBS_DESC\n");
+	#print($FILEID "$dest_file $LongFileName\n              $BBS_DESC\n"); #ZZZ
+	print($FILEID "$LongFileName\n              $BBS_DESC\n");
 	close($FILEID);
-	#system("$ADD_PROG $BBS_DIR -cftinz $dest_file \"$LongFileName\"");
 	system("$ADD_PROG $BBS_DIR -i \"+$DEST_DIR/$FILEIDFILE\"");
 	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\",\"$filesize\"\n");
 	unlink("$DEST_DIR/$FILEIDFILE");
