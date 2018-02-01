@@ -23,7 +23,7 @@ if (-f $SEEN_FILE)
 }
 else
 {
-	print("$SEEN_FILE not found\n");
+	print("'$SEEN_FILE' not found in seen file.\n");
 	exit(1);
 }
 
@@ -37,10 +37,9 @@ if ($num_args != 1) {
 
 my $FileToRemove = $ARGV[0];
 print "Looking for file '$FileToRemove'\n";
-exit 0;
 
 if (! -f $FileToRemove) {
-    print "File not found in current directory...\n";
+    print "File '$FileToRemove' not found in current directory...\n";
     exit(1);
 }
 
@@ -54,7 +53,8 @@ if (! -d $FileToRemove)
 	}
 	else
 	{
-		print("File $FileToRemove not found\n");
+		print("File '$FileToRemove' not found in seen file.\n");
+		exit(1);
 	} 
 }
 else
