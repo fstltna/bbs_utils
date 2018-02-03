@@ -23,7 +23,7 @@ my $VERSION = "1.3";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 
-print "Running file_announce $VERSION\nUse \"usage\" to get command options\n";
+print "Running file_announce $VERSION\nUse \"--usage\" to get command options\n";
 print "============================\n";
 
 GetOptions ("length=i" => \$length,    # numeric
