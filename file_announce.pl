@@ -4,6 +4,7 @@
 
 use Text::CSV;
 use Math::Round;
+use Getopt::Long;
 
 my $BBSSUBJ = "AmigaCity BBS - New Amiga Files";
 my $BBSOWNER = "AmigaCity Admin";
@@ -18,11 +19,28 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 my $JSEXEC = "jsexec postmsg.js -i\"$TempName\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\" $GROUP";
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.2";
+my $VERSION = "1.3";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
+my $USAGE;
 
-print "Running file_announce $VERSION\n";
-print "========================\n";
+print "Running file_announce $VERSION\nUse \"usage\" to get command options\n";
+print "============================\n";
+
+GetOptions ("length=i" => \$length,    # numeric
+            "bbssubj=s" => \$BBSSUBJ,      # string
+            "bbsowner=s" => \$BBSOWNER,      # string
+            "group=s"  => \$GROUP,      # string
+            "msgbody=s" => \$MSGBODYFILE,      # string
+            "msgbodybot=s" => \$MSGBODYBOTTOMFILE,      # string
+            "usage"    => \$USAGE,      # flag
+            "verbose"  => \$verbose)   # flag
+or die("Error in command line arguments\n");
+
+if ($USAGE)
+{
+	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n");
+	exit 0;
+}
 
 open(INPF, "<$MSGBODYFILE") || die "Unable to open $MSGBODYFILE for input";
 {
