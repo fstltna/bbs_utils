@@ -11,7 +11,7 @@ my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.18";
+my $VERSION="1.19";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
@@ -26,6 +26,8 @@ my $SOURCE_DIR="";
 my %SEEN_HASH=();
 my $REQDESC=0;
 my $FILEIDFILE="files.bbs";
+my $DEFEDIT="/bin/nano";
+my $EDITOR="";
 
 print("perladd.pl - Version $VERSION\n");
 print("Checking for saved files hash\n");
@@ -39,6 +41,15 @@ else
 {
 	print("$SEEN_FILE not found\n");
 	%SEEN_HASH = ();
+}
+
+if ($ENV{'EDITOR'})
+{
+	$EDITOR = $ENV{'EDITOR'};
+}
+else
+{
+	$EDITOR = $DEFEDIT;
 }
 
 open(OUTF, ">>$NEWFILES") || die "Unable to open output file $NEWFILES";
@@ -122,8 +133,17 @@ sub CopyFile
 	my $LongFileName=$CUR_FILE;
 	if ($REQDESC)
 	{
-		print "Enter description for $CUR_FILE: ";
-		$LONG_PLUS_DESC = <STDIN>;
+		my $TMPNAME = "/tmp/addingfile.txt";
+		open (TMPFILE, ">$TMPNAME") || die "file '$TMPNAME' could not be opened for writing";
+		# Write default text
+		print (TMPFILE "Replace this with a description for $CUR_FILE");
+		close (TMPFILE);
+		# Edit the description file
+		system("$EDITOR $TMPNAME");
+		open (TMPFILE, "<$TMPNAME") || die "file '$TMPNAME' could not be opened for reading";
+		# Now read in edited text
+		$LONG_PLUS_DESC = <TMPFILE>;
+		close(TMPFILE);
 		chomp $LONG_PLUS_DESC;
 		$CUR_FILE = "$CUR_FILE - $LONG_PLUS_DESC";
 	}
@@ -133,7 +153,7 @@ sub CopyFile
 		$BBS_DESC = substr($CUR_FILE, 0, $BBS_DESC_LEN - 1);
 	}
 	open(my  $FILEID, ">", "$DEST_DIR/$FILEIDFILE") or die "Could not open file '$DEST_DIR/$FILEIDFILE' $!";
-	print($FILEID "$dest_file $LongFileName\n              $BBS_DESC\n"); #ZZZ
+	print($FILEID "$dest_file $LongFileName\n              $BBS_DESC\n");
 	#print($FILEID "$LongFileName\n              $BBS_DESC\n");
 	close($FILEID);
 	system("$ADD_PROG $BBS_DIR -i \"+$DEST_DIR/$FILEIDFILE\"");
