@@ -165,7 +165,7 @@ sub CopyFile
 my $num_args = $#ARGV + 1;
 if ($num_args != 2) {
     print "Incorrect number of arguments\n";
-    print "Usage: perladd.pl <BBSFILEDIR> [link|long|existing]\n";
+    print "Usage: perladd.pl <BBSFILEDIR> [long|link|existing]\n";
     print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     print "\texisting - use existing files\n";
     print "\tlink - links rather than using existing files\n";
@@ -175,10 +175,10 @@ if ($num_args != 2) {
 }
 if ($ARGV[1] ne "link" && $ARGV[1] ne "long" && $ARGV[1] ne "existing") {
     print "Incorrect action\n";
-    print "Usage: perladd.pl <BBSFILEDIR> [link|long|existing]\n";
+    print "Usage: perladd.pl <BBSFILEDIR> [long|link|existing]\n";
+    print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     print "\texisting - use existing files\n";
     print "\tlink - links rather than using existing files\n";
-    print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     ListDirs();
     close(OUTF);
     exit;
