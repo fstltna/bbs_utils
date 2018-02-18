@@ -14,6 +14,9 @@ Included Utilities:
 Basic Workflow
 ==
 **cd /source_dir**
+
 **perladd.pl file_dir long**    <- this will prompt for file descriptions
+
 **_repeat for each file to be added_**
+
 **file_announce.pl**   <- this will post all the entries for the previous files to your message base
