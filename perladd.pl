@@ -11,7 +11,7 @@ my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.19";
+my $VERSION="1.20";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
@@ -28,6 +28,9 @@ my $REQDESC=0;
 my $FILEIDFILE="files.bbs";
 my $DEFEDIT="/bin/nano";
 my $EDITOR="";
+my $Aborted=0;
+my $DefaultText = "Replace this with a description for";
+my $DefaultLength = length($DefaultText);
 
 print("perladd.pl - Version $VERSION\n");
 print("Checking for saved files hash\n");
@@ -131,12 +134,13 @@ sub CopyFile
 	my $filesize = -s $full_dest_file;
 	my $LONG_PLUS_DESC="";
 	my $LongFileName=$CUR_FILE;
+
 	if ($REQDESC)
 	{
 		my $TMPNAME = "/tmp/addingfile.txt";
 		open (TMPFILE, ">$TMPNAME") || die "file '$TMPNAME' could not be opened for writing";
 		# Write default text
-		print (TMPFILE "Replace this with a description for $CUR_FILE");
+		print (TMPFILE "$DefaultText $CUR_FILE");
 		close (TMPFILE);
 		# Edit the description file
 		system("$EDITOR $TMPNAME");
@@ -145,6 +149,18 @@ sub CopyFile
 		$LONG_PLUS_DESC = <TMPFILE>;
 		close(TMPFILE);
 		chomp $LONG_PLUS_DESC;
+		if (substr($LONG_PLUS_DESC, 0, $DefaultLength) eq $DefaultText)
+		{
+			# Skip this file
+			$Aborted = 1;
+			next;
+		}
+		if ((lc($LONG_PLUS_DESC) eq "quit") || (lc($LONG_PLUS_DESC) eq "abort"))
+		{
+			# Abort processing
+			$Aborted = 2;
+			break;
+		}
 		$CUR_FILE = "$CUR_FILE - $LONG_PLUS_DESC";
 	}
 	my $BBS_DESC = $CUR_FILE;
@@ -239,10 +255,22 @@ while (readdir $dh) {
 			}
 			else
 			{
-				#print("File $_ not seen, adding to hash\n");
-				$SEEN_HASH{"^$_\$"} = "seen";
 				print "Working on '$CUR_FILE': ";
+				$Aborted = 0;
 				&CopyFile();
+				#print("File $_ not seen, adding to hash\n");
+				if ($Aborted == 0)
+				{
+					# Didn't abort or skip, so add to seen hash
+					$SEEN_HASH{"^$_\$"} = "seen";
+				}
+				if ($Aborted == 2)
+				{
+					# Did abort, stop processing and exit
+					closedir $dh;
+					close(OUTF);
+					exit 0;
+				}
 			} 
 		}
 	}
