@@ -140,7 +140,7 @@ sub CopyFile
 		my $TMPNAME = "/tmp/addingfile.txt";
 		open (TMPFILE, ">$TMPNAME") || die "file '$TMPNAME' could not be opened for writing";
 		# Write default text
-		print (TMPFILE "$DefaultText $CUR_FILE");
+		print (TMPFILE "$DefaultText $CUR_FILE - leave this text as-is to skip adding this file, or replace with 'quit' or 'abort' to stop");
 		close (TMPFILE);
 		# Edit the description file
 		system("$EDITOR $TMPNAME");
@@ -263,6 +263,8 @@ while (readdir $dh) {
 				{
 					# Didn't abort or skip, so add to seen hash
 					$SEEN_HASH{"^$_\$"} = "seen";
+					store (\%SEEN_HASH, $SEEN_FILE);
+					print("Saved seen file hash to $SEEN_FILE\n");
 				}
 				if ($Aborted == 2)
 				{
