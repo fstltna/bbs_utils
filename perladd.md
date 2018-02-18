@@ -13,7 +13,10 @@ Usage:
 	perladd.pl games long
 	
 	where "games" is the file dir that the files should be symlinked to. The files are symlinked in to save space and the originals are untouched so you don't lose your long file names. The "long" option prompts for a description for each file, you can enter "link" if you just want to link the files and not supply a description.
+	
 	If you use the "long" option you can set your default editor by setting the EDITOR environment variable. By default nano is used.
+	
+	When entering a long description you can leave the default string alone to skip that file or edit the description to "abort" or "quit" to stop processing files.
 
 3. You will need the following perl module installed using CPAN:
 
