@@ -5,3 +5,4 @@
   * https://AmigaCityLaptops.com - Laptops & Handhelds that run AmigaOS
            * We also support https://SynchronetBBS.org !
        * Join our Slack team at: http://synchronetbbs.org:3000/
+   * https://BBSList.SynchronetBBS.org - Live BBS list for all BBS types
