@@ -11,7 +11,7 @@ my $MSGBODYFILE = "/sbbs/exec/Announce.txt";
 use Getopt::Long;
 
 # == No changes below here
-my $VERSION = "1.2";
+my $VERSION = "1.3";
 my $USAGE;
 my $PASSEDGROUPS = "";
 
