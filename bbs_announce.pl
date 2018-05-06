@@ -4,7 +4,7 @@
 
 my $BBSSUBJ = "AmigaCity BBS - BBS For The Amiga";
 my $BBSOWNER = "AmigaCity Admin";
-my @GROUPS = ("DOVE-ADS","AMY-BBSNEWSA","RNRTNBBSAD");
+my @GROUPS = ("DOVE-ADS","AMY-BBSNEWSA","RNRTNBBSAD","USENET_MSC","USENET_INBB");
 
 # Probably no change for this
 my $MSGBODYFILE = "/sbbs/exec/Announce.txt";
