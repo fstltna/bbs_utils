@@ -3,6 +3,10 @@ Command-line utilities for the SBBS software
 Official support sites: [Official Github Repo](https://github.com/fstltna/bbs_utils) - [Official Forum](https://synchronetbbs.org/index.php/forum/bbs-utils-suite-support) 
 ![Synchronet Logo](https://SynchronetBBS.org/SynchronetLogo.png) 
 
+[![Visit our IRC channel](https://kiwiirc.com/buttons/irc.synchro.net/SynchronetFans.png)](https://kiwiirc.com/client/irc.synchro.net/?nick=guest|?#SynchronetFans)
+
+---
+
 Included Utilities:
 ==
 - **bbs_announce** (1.3) - This posts a text file to the desired groups. It posts as content, not a attachment! The settings are in the file at the top. Especially note that you need to copy (and edit unless you want to promote my BBS 😄) the Announce.txt to /sbbs/exec. Now allows command-line overrides of the default settings.
