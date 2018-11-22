@@ -6,13 +6,13 @@ Install Steps:
 ==
 1. You will need the “Math::Round” and “Getopt::Long” Perl extensions installed with CPAN.
 2. Edit Announce.txt for your desired website to promote. Unless you want to promote mine instead 😉
-3. Copy the Announce.txt & bbs_announce.pl files to /sbbs/exec. You can put it anywhere but you must edit the bbs_announce.pl script to tell it where to look for Announce.txt.
-4. Edit the /sbbs/exec/bbs_announce.pl script for your settings and what message bases you want to post in.
+3. Copy the Announce.txt /sbbs/exec. You can put it anywhere but you must edit the bbs_announce.pl script to tell it where to look for Announce.txt.
+4. Edit the bbs_announce.pl script for your settings and what message bases you want to post in.
 5. Do a test run by running bbs_announce.pl
 6. If all looks good you can set up a cron job to run no more often than once per day - please no spam!
 Here is a example cronjob entry:
 
-	01 01 * * * /sbbs/exec/bbs_announce.pl
+	01 01 * * * /root/bbs_utils/bbs_announce.pl
 
 Getting Message Group IDs:
 ==
