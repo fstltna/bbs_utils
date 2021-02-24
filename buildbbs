@@ -1,0 +1,5 @@
+#!/bin/bash
+cd /sbbs
+make install USE_DOSEMU=1 RELEASE=1
+chown -R bbsowner:bbsowner /sbbs
+exit 0
