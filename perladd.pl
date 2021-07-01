@@ -11,7 +11,7 @@ my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.20";
+my $VERSION="1.30";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
@@ -21,7 +21,6 @@ my $FIRST_PART="";
 my $DEST_TYPE="";
 my $BBS_DIR="";
 my $DESIRED_ACTION="";
-my $NAME_LENGTH="";
 my $SOURCE_DIR="";
 my %SEEN_HASH=();
 my $REQDESC=0;
@@ -74,31 +73,6 @@ sub ListDirs
         }
 }
 
-# Sub to shorten the long file names
-sub ShortenName
-{
-	my $NumInDir=0;
-	my $NewName;
-	my $NameNumber;
-	#print "Length is $NAME_LENGTH: ";
-	$NewName = substr($FIRST_PART, 0, 5);
-	$NameNumber = "0000" . $NumInDir;
-	$NameNumber = substr($NameNumber, -3);
-	$NewName .= $NameNumber;
-	# Get lowest unused number
-	while (-e "$DEST_DIR/$NewName.$DEST_TYPE")
-	{
-		# Existed, increment number
-		$NumInDir += 1;
-		$NewName = substr($FIRST_PART, 0, 5);
-		$NameNumber = "0000" . $NumInDir;
-		$NameNumber = substr($NameNumber, -3);
-		$NewName .= $NameNumber;
-	}
-	#print "NameNumber = $NameNumber\n";
-	return "$NewName.$DEST_TYPE";
-}
-
 sub CopyFile
 {
 	my $dest_file;
@@ -108,19 +82,7 @@ sub CopyFile
 	$DEST_TYPE = substr($CUR_FILE, $i+1);
 	#print "first_Part: $FIRST_PART\n";
 	#print "Extension: $DEST_TYPE\n";
-	$NAME_LENGTH = length $FIRST_PART;
-	if ($NAME_LENGTH < 9)
-	{
-		# File does not need to be shortened
-		print "Name is short enough: ";
-		$dest_file = $CUR_FILE;
-	}
-	else
-	{
-		# Name too long
-		print "Name is too long, needs to be shortened: ";
-		$dest_file = &ShortenName();
-	}
+	$dest_file = $CUR_FILE;
 	$dest_file =~ s/ /_/g;
 	if ($DESIRED_ACTION eq "link")
 	{
@@ -161,7 +123,7 @@ sub CopyFile
 			$Aborted = 2;
 			break;
 		}
-		$CUR_FILE = "$CUR_FILE - $LONG_PLUS_DESC";
+		$CUR_FILE = "$LONG_PLUS_DESC";
 	}
 	my $BBS_DESC = $CUR_FILE;
 	if (length($BBS_DESC) > $BBS_DESC_LEN)
