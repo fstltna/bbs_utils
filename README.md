@@ -1,4 +1,4 @@
-# BBS Utilities (1.14)
+# BBS Utilities (1.15)
 Command-line utilities for the SBBS software
 Official support sites: [Official Github Repo](https://github.com/fstltna/bbs_utils) - [Official Forum](https://synchronetbbs.org/index.php/forum/bbs-utils-suite-support) 
 ![Synchronet Logo](https://SynchronetBBS.org/SynchronetLogo.png) 
@@ -21,7 +21,9 @@ Basic Workflow
 **cd /source_dir**
 
 **perladd.pl file_dir long**    <- this will prompt for file descriptions
+- or -
+**perladd.pl file_dir link**    <- this will NOT prompt for file descriptions
 
-**_repeat for each file to be added_**
+**_repeat for each directory to be added_**
 
 **file_announce.pl**   <- this will post all the entries for the previous files to your message base
