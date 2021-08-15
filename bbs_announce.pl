@@ -2,16 +2,16 @@
 #
 # -- Posts a BBS announcement to the desire sub-board
 
-my $BBSSUBJ = "AmigaCity BBS - BBS For The Amiga";
-my $BBSOWNER = "AmigaCity Admin";
-my @GROUPS = ("DOVE-ADS","AMY-BBSNEWSA","RNRTNBBSAD","USENET_MSC","USENET_INBB");
+my $BBSSUBJ = "Classic Mac BBS - The BBS For Classic Macs";
+my $BBSOWNER = "Classic Macs BBS Admin";
+my @GROUPS = ("DOVE-ADS","USENET_MACMISC","USENET_MACADV");
 
 # Probably no change for this
 my $MSGBODYFILE = "/sbbs/exec/Announce.txt";
 use Getopt::Long;
 
 # == No changes below here
-my $VERSION = "1.3";
+my $VERSION = "1.4";
 my $USAGE;
 my $PASSEDGROUPS = "";
 
