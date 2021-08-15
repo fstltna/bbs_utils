@@ -13,13 +13,12 @@ use Getopt::Long;
 # == No changes below here
 my $VERSION = "1.4";
 my $USAGE;
-my $PASSEDGROUPS = "";
 my $CONF_FILE = "/root/.ba_settings";	# Settings to use
 
 GetOptions ("length=i" => \$length,    # numeric
             "bbssubj=s" => \$BBSSUBJ,      # string
             "bbsowner=s" => \$BBSOWNER,      # string
-            "groups=s"  => \$PASSEDGROUPS,      # string
+            "groups=s"  => \$GROUP,      # string
             "msgbody=s" => \$MSGBODYFILE,      # string
             "usage"    => \$USAGE,      # flag
             "verbose"  => \$verbose)   # flag
@@ -65,11 +64,11 @@ if (-e $CONF_FILE)
 print "Running bbs_announce $VERSION\nUse \"--usage\" to get command options\n";
 print "============================\n";
 
-if ($PASSEDGROUPS)
+if ($GROUP)
 {
-	@GROUPS = split(' ', $PASSEDGROUPS);
+	@GROUPS = split(' ', $GROUP);
 }
-print("Posting to these groups: @GROUPS\n");
+print("Posting to these groups: $GROUP\n");
 
 my $JSEXEC = "jsexec postmsg.js -i\"$MSGBODYFILE\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\"";
 
