@@ -4,7 +4,7 @@ Submits a list of added downloads to a message base
 
 Install Steps:
 ==
-1. You will need the "Math::Round" and "Getopt::Long" Perl extensions installed with CPAN.
+1. You will need the "Math::Round", "WebService::Discord::Webhook" and "Getopt::Long" Perl extensions installed with CPAN.
 2. Edit FilePost.txt and FilePostBottom.txt for your desired website to promote. Unless you want to promote mine instead 😉
 3. Copy the FilePost.txt and FilePostBottom.txt /sbbs/exec. You can put it anywhere but you must edit the file_announce.pl script to tell it where to look for those text files.
 4. Edit the file_announce.pl script for your settings and what message base you want to post in.
