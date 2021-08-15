@@ -21,3 +21,7 @@ Getting The Message Group ID:
 7. Note the entry for "Internal Code" - this is what you need to put in file_announce.pl
 8. Exit scfg
 9. All done!
+
+Common Useage:
+==
+1. To post to Discord run it like this: "file_announce.pl --discord"
