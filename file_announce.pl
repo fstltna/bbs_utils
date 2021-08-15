@@ -23,7 +23,7 @@ my $VERSION = "1.4";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
-my $CONF_FILE = "~/.fa_settings";	# Settings to use
+my $CONF_FILE = "/root/.fa_settings";	# Settings to use
 my $TempName = "/tmp/fileann.tmp";
 
 # Try and pull in configs
@@ -31,26 +31,27 @@ if (-e $CONF_FILE)
 {
 	open(INPF, "<$CONF_FILE") || die "Unable to open $CONF_FILE for input";
 
-	foreach $line (<INFO>)
+	foreach $line (<INPF>)
 	{
-		print $line;
+		#print $line;
+		chop($line);
 		if (substr($line, 0, 8) eq "bbssubj=")
 		{
 			# Saw Subject
 			$BBSSUBJ = substr($line, 8);
-			print ("BBS Subject = '$BBSSUBJ'\n");
+			#print ("BBS Subject = '$BBSSUBJ'\n");
 		}
 		if (substr($line, 0, 9) eq "bbsowner=")
 		{
 			# Saw Owner
 			$BBSOWNER = substr($line, 9);
-			print ("BBS Owner = '$BBSOWNER'\n");
+			#print ("BBS Owner = '$BBSOWNER'\n");
 		}
 		if (substr($line, 0, 6) eq "group=")
 		{
 			# Saw Group
 			$GROUP = substr($line, 6);
-			print ("BBS Group = '$GROUP'\n");
+			#print ("BBS Group = '$GROUP'\n");
 		}
 		if (substr($line, 0, 8) eq "webhook=")
 		{
