@@ -19,9 +19,10 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 my $JSEXEC = "jsexec postmsg.js -i\"$TempName\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\" $GROUP";
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.3";
+my $VERSION = "1.4";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
+my $DISCORD = "";
 
 print "Running file_announce $VERSION\nUse \"--usage\" to get command options\n";
 print "============================\n";
@@ -33,6 +34,7 @@ GetOptions ("length=i" => \$length,    # numeric
             "msgbody=s" => \$MSGBODYFILE,      # string
             "msgbodybot=s" => \$MSGBODYBOTTOMFILE,      # string
             "usage"    => \$USAGE,      # flag
+            "discord"    => \$DISCORD,      # string
             "verbose"  => \$verbose)   # flag
 or die("Error in command line arguments\n");
 
@@ -40,6 +42,11 @@ if ($USAGE)
 {
 	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n");
 	exit 0;
+}
+
+if ($DISCORD ne "")
+{
+	use WebService::Discord::Webhook;
 }
 
 open(INPF, "<$MSGBODYFILE") || die "Unable to open $MSGBODYFILE for input";
