@@ -58,7 +58,7 @@ if (-e $CONF_FILE)
 		{
 			# Saw webhook
 			$DISCORD_WEBHOOK = substr($line, 8);
-			print ("Webhook = '$DISCORD_WEBHOOK'\n");
+			#print ("Webhook = '$DISCORD_WEBHOOK'\n");
 		}
 	}
 	close(INPF);
