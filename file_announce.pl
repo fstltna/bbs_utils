@@ -187,6 +187,22 @@ print (TEMPFILE $contentbottom);
 close(NEWFILES);
 close(TEMPFILE);
 
+# Post to the discord server
+if ($discord)
+{
+	print "Posting to discord\n";
+
+	my $webhook = WebService::Discord::Webhook->new($DISCORD_WEBHOOK);
+ 
+	$webhook->get();
+	print "Webhook posting as '" . $webhook->{name} .
+  "' in channel " . $webhook->{channel_id} . "\n";
+	#$webhook->execute(content => 'Hello, world!', tts => 1);
+	$webhook->execute(content => '$DiscordContent');
+	sleep(30);
+	$webhook->execute('All files listed');\
+}
+
 # Post the message to the group
 system("$JSEXEC");
 unlink "$TempName" || die "Unable to delete temp file $TempName";
