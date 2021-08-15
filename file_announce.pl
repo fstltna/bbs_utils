@@ -25,6 +25,7 @@ my $USAGE;
 my $discord = "";
 my $CONF_FILE = "/root/.fa_settings";	# Settings to use
 my $TempName = "/tmp/fileann.tmp";
+my $DiscordText = "Added the following files:\n";
 
 # Try and pull in configs
 if (-e $CONF_FILE)
@@ -124,6 +125,7 @@ while(<NEWFILES>)
 	($Field1, $LongName, $DestFolder, $ShortName, $FileSize) = $csv->fields();
 	$FileSize = round($FileSize / 1024);
 	$DestFolder = substr ($DestFolder, 16);
+	$DiscordText = "Added the following files:\n$LongNam";
 	print "Proccessing file $LongName copied to $DestFolder\n";
 	my $LongLength= length($LongName);
 	if ($LongLength > 25)
@@ -151,9 +153,11 @@ while(<NEWFILES>)
 		}
 	}
 	my $OutputStr = substr($LongName . "                                                  ", 0, 25) . "|" . substr($ShortName . "             ", 0, 13) . " | in \"$DestFolder\" ($FileSize KB)";
+	$DiscordText = "$DiscordText\n$LongName - In $DestFolder - (Size $FileSize KB)\n";
 	if ($FilesWorked > 0)
 	{
 		print (TEMPFILE "---\n");
+		$DiscordText = "$DiscordText\n---\n";
 	}
 	$FilesWorked++;
 	print (TEMPFILE "$OutputStr\n");
@@ -198,9 +202,9 @@ if ($discord)
 	print "Webhook posting as '" . $webhook->{name} .
   "' in channel " . $webhook->{channel_id} . "\n";
 	#$webhook->execute(content => 'Hello, world!', tts => 1);
-	$webhook->execute(content => '$DiscordContent');
+	$webhook->execute(content => '$DiscordText');
 	sleep(30);
-	$webhook->execute('All files listed');\
+	$webhook->execute('All files listed');
 }
 
 # Post the message to the group
