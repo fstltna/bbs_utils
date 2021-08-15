@@ -125,7 +125,6 @@ while(<NEWFILES>)
 	($Field1, $LongName, $DestFolder, $ShortName, $FileSize) = $csv->fields();
 	$FileSize = round($FileSize / 1024);
 	$DestFolder = substr ($DestFolder, 16);
-	$DiscordText = "Added the following files:\n$LongNam";
 	print "Proccessing file $LongName copied to $DestFolder\n";
 	my $LongLength= length($LongName);
 	if ($LongLength > 25)
