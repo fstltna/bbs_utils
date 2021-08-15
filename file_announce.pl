@@ -19,13 +19,13 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 # == No changes below here
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.4";
+my $VERSION = "1.5";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
 my $CONF_FILE = "/root/.fa_settings";	# Settings to use
 my $TempName = "/tmp/fileann.tmp";
-my $DiscordText = "Added the following files:\n";
+my $DiscordText = "Added the following files:";
 
 # Try and pull in configs
 if (-e $CONF_FILE)
@@ -201,9 +201,9 @@ if ($discord)
 	print "Webhook posting as '" . $webhook->{name} .
   "' in channel " . $webhook->{channel_id} . "\n";
 	#$webhook->execute(content => 'Hello, world!', tts => 1);
-	$webhook->execute(content => '$DiscordText');
+	$webhook->execute($DiscordText);
 	sleep(30);
-	$webhook->execute('All files listed');
+	#$webhook->execute('All files listed');
 }
 
 # Post the message to the group
