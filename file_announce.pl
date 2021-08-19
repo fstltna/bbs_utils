@@ -19,7 +19,7 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 # == No changes below here
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.5";
+my $VERSION = "1.6";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
@@ -151,12 +151,12 @@ while(<NEWFILES>)
 			}
 		}
 	}
-	my $OutputStr = substr($LongName . "                                                  ", 0, 25) . "|" . substr($ShortName . "             ", 0, 13) . " | in \"$DestFolder\" ($FileSize KB)";
+	my $OutputStr = substr($LongName . " | In \"$DestFolder\" ($FileSize KB)";
 	$DiscordText = "$DiscordText\n$LongName - In $DestFolder - (Size $FileSize KB)\n";
 	if ($FilesWorked > 0)
 	{
 		print (TEMPFILE "---\n");
-		$DiscordText = "$DiscordText\n---\n";
+		$DiscordText = "$DiscordText\n";
 	}
 	$FilesWorked++;
 	print (TEMPFILE "$OutputStr\n");
