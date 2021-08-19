@@ -11,7 +11,7 @@ my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.30";
+my $VERSION="1.31";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
@@ -151,7 +151,8 @@ if ($num_args != 2) {
     close(OUTF);
     exit;
 }
-if ($ARGV[1] ne "link" && $ARGV[1] ne "long" && $ARGV[1] ne "existing") {
+if ($ARGV[1] ne "link" && $ARGV[1] ne "long" && $ARGV[1] ne "existing")
+{
     print "Incorrect action\n";
     print "Usage: perladd.pl <BBSFILEDIR> [long|link|existing]\n";
     print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
@@ -219,7 +220,10 @@ while (readdir $dh) {
 			{
 				print "Working on '$CUR_FILE': ";
 				$Aborted = 0;
-				&CopyFile();
+				if ($DESIRED_ACTION ne "existing")
+				{
+					&CopyFile();
+				}
 				#print("File $_ not seen, adding to hash\n");
 				if ($Aborted == 0)
 				{
