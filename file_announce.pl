@@ -151,8 +151,9 @@ while(<NEWFILES>)
 			}
 		}
 	}
-	my $OutputStr = substr($LongName . " | In \"$DestFolder\" ($FileSize KB)";
-	$DiscordText = "$DiscordText\n$LongName - In $DestFolder - (Size $FileSize KB)\n";
+	#my $OutputStr = substr($LongName . " | In \"$DestFolder\" ($FileSize KB)";
+	my $OutputStr = $LongName . " | In \"$DestFolder\" ($FileSize KB)";
+	$DiscordText = "$DiscordText\n$LongName - In \"$DestFolder\" - (Size $FileSize KB)\n";
 	if ($FilesWorked > 0)
 	{
 		print (TEMPFILE "---\n");
