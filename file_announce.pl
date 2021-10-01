@@ -19,10 +19,12 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 # == No changes below here
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.6";
+my $VERSION = "1.7";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
+my $discordon = "";
+my $discordoff = "";
 my $CONF_FILE = "/root/.fa_settings";	# Settings to use
 my $TempName = "/tmp/fileann.tmp";
 my $DiscordText = "Added the following files:";
@@ -77,12 +79,34 @@ GetOptions ("length=i" => \$length,    # numeric
             "msgbodybot=s" => \$MSGBODYBOTTOMFILE,      # string
             "usage"    => \$USAGE,      # flag
             "discord"    => \$discord,      # string
+            "discordon"    => \$discordon,      # string
+            "discordoff"    => \$discordoff,      # string
             "verbose"  => \$verbose)   # flag
 or die("Error in command line arguments\n");
 
 if ($USAGE)
 {
-	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n\t--discord = flag to post to Discord\n");
+	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n\t--discord = flag to post to Discord\n\t--discordon = Post to Discord by default\n\t--discordoff = Do not post to Discord by default\n");
+	exit 0;
+}
+
+if (-f "/root/.discordon")
+{
+	$discord = "defaulton";
+}
+
+if ($discordon)
+{
+	system("touch /root/.discordon");
+	exit 0;
+}
+
+if ($discordoff)
+{
+	if (-f "/root/.discordon")
+	{
+		unlink("/root/.discordon");
+	}
 	exit 0;
 }
 
