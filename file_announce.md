@@ -25,3 +25,5 @@ Getting The Message Group ID:
 Common Useage:
 ==
 1. To post to Discord run it like this: "file_announce.pl --discord"
+2. To post to Discord by default run it like this: "file_announce.pl --discordon"
+1. To NOT post to Discord by default run it like this: "file_announce.pl --discordoff"
