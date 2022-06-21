@@ -15,6 +15,16 @@ Included Utilities:
 - **file_remove** (1.0) - This removes a file from your processed list so it can be imported with perladd.pl again.
 - **updseen.pl** - Updates the perladd.pl /root/.seen file to fix issues - Not usually needed...
 
+To install these tools you will need to install these Perl modules:
+
+- cpan -i Getopt::Long
+- cpan -i Text::CSV
+- cpan -i Math::Round
+- cpan -i WebService::Discord::Webhook
+- cpan -i String::Scanf
+- cpan -i Cwd
+- cpan -i Storable
+
 Basic Workflow
 ==
 **cd /source_dir**
