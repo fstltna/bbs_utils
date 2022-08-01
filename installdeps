@@ -1,0 +1,9 @@
+#!/bin/bash
+cpan -i Getopt::Long
+cpan -i Text::CSV
+cpan -i Math::Round
+cpan -i WebService::Discord::Webhook
+cpan -i String::Scanf
+cpan -i Cwd
+cpan -i Storable
+exit 0
