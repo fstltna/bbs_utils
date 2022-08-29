@@ -19,7 +19,7 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 # == No changes below here
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.7";
+my $VERSION = "1.8";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
@@ -68,7 +68,7 @@ if (-e $CONF_FILE)
 
 my $JSEXEC = "jsexec postmsg.js -i\"$TempName\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\" $GROUP";
 
-print "Running file_announce $VERSION\nUse \"--usage\" to get command options\n";
+print "Running file_announce $VERSION\n";
 print "============================\n";
 
 GetOptions ("length=i" => \$length,    # numeric
@@ -81,12 +81,34 @@ GetOptions ("length=i" => \$length,    # numeric
             "discord"    => \$discord,      # string
             "discordon"    => \$discordon,      # string
             "discordoff"    => \$discordoff,      # string
+            "settings"    => \$ShowSettings,      # string
+            "help"    => \$USAGE,      # string
             "verbose"  => \$verbose)   # flag
 or die("Error in command line arguments\n");
 
+if ($ShowSettings)
+{
+	print "\tCurrent Settings\n";
+	print "\t----------------\n";
+	print "\tSubject Line:\t\t$BBSSUBJ\n";
+	print "\tUser to post as:\t$BBSOWNER\n";
+	print "\tGroups To Post To:\t$GROUP\n";
+	print "\tDiscord Webhook:\t$DISCORD_WEBHOOK\n\n";
+	if (-f "/root/.discordon")
+	{
+		print "\tPosting to Discord by default\n";
+	}
+	else
+	{
+		print "\tNot posting to Discord by default\n";
+	}
+
+	exit 0;
+}
+
 if ($USAGE)
 {
-	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n\t--discord = flag to post to Discord\n\t--discordon = Post to Discord by default\n\t--discordoff = Do not post to Discord by default\n");
+	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n\t--discord = flag to post to Discord\n\t--discordon = Post to Discord by default\n\t--discordoff = Do not post to Discord by default\n\t--settings = Displays the settings that will be used\n");
 	exit 0;
 }
 
@@ -98,6 +120,7 @@ if (-f "/root/.discordon")
 if ($discordon)
 {
 	system("touch /root/.discordon");
+	print "--- Discord on by default\n";
 	exit 0;
 }
 
@@ -107,6 +130,7 @@ if ($discordoff)
 	{
 		unlink("/root/.discordon");
 	}
+		print "--- Discord off by default\n";
 	exit 0;
 }
 
