@@ -1,0 +1,156 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+use Time::Piece;
+
+my $InputFile = "/tmp/bbsfiles";
+my $FindCommand = "/usr/bin/find . -print > $InputFile";
+my %FileList = ();
+my $RepoDir = "/sbbs/data/dirs";
+my $RepoLength = length($RepoDir);
+my $JDownloadsFolderTree = "/var/www/html/jdownloads/MacOS\ Files";
+my $NumFiles = 0;
+my $LocateCommand = "/usr/bin/locate";
+my $LocateResultFile = "/tmp/locatefiles";
+my $AutoAccept = "n";
+my $REMOVEDEL_CMD = "/sbbs/exec/jsexec delfiles -offline";
+my $VERSION = "1.0";
+
+chdir($RepoDir);
+system("$FindCommand");
+
+open(my $fh, '<', $InputFile)
+  or die "Could not open file '$InputFile' $!";
+ 
+while (my $row = <$fh>)
+{
+	chomp $row;
+	if (($row eq ".")||($row eq "..")||($row eq "./Desktop Folder")||($row eq "./LatestFiles.txt")||($row eq "./LatestFilesUnix.txt"))
+	{
+		next;
+	}
+	if (-d $row)
+	{
+		# print "$row was a directory\n";
+		next;
+	}
+
+	if (index($row, "rsrc") != -1)
+	{
+		#print "Saw it\n";
+		next;
+	}
+	# If file extension is any of these skip them
+	my $fileext = substr($row, -3);
+	if (($fileext eq "sda") || ($fileext eq "sdc") || ($fileext eq "sha") || ($fileext eq "shd") || ($fileext eq "sdt") || ($fileext eq "ini") || ($fileext eq "sid"))
+	{
+		# print "Saw a unwanted type '$row'\n";
+		next;
+	}
+	#my $substring = $row;
+	#if (my $mystring =~ /\Q\.rsrc\E/)
+	#if (my $mystring =~ /rsrc/)
+	#{
+	#	print qq("$mystring" contains ".rsrc"\n);
+	#	next;
+	#}
+
+	$row = substr($row, 2);
+	# print "new $row\n";
+#	my ($dev,$ino,$mode,$nlink,$uid,$gid,$rdev,$size,
+#		$atime,$mtime,$ctime,$blksize,$blocks)
+#		= stat($row);
+	my $target = readlink "$row";
+	if ($target)
+	{
+		# print " target -> $target\n";
+		if (-f $target)
+		{
+			# print "target exists '$target' - skipping\n";
+			next;
+		}
+		else
+		{
+			# print "target does not exist '$row'\n";
+			$FileList{$NumFiles} = $row;
+			$NumFiles += 1;
+		}
+	}
+}
+close ($fh);
+
+sub locatefile
+{
+	my $TestingFile = $_[0];
+	print "Checking for $TestingFile\n";
+	my $DirSeperator = index($TestingFile, "/");
+	if ($DirSeperator == 0)
+	{
+		print "Error: No folder found for $TestingFile\n";
+		exit 0;
+	}
+	my $BaseFile = substr($TestingFile, $DirSeperator + 1);
+	system("$LocateCommand $BaseFile > $LocateResultFile");
+	# print "BaseFile = $BaseFile\n";
+	open(LOCATEFH, '<', $LocateResultFile) or die $!;
+	my $SawLine ="";
+	while(<LOCATEFH>)
+	{
+		chomp();
+		if (substr($_, 0, $RepoLength) eq $RepoDir)
+		{
+			# print "Was in the repo, skipping\n";
+		}
+		else
+		{
+			$SawLine = $_;
+		}
+	}
+	close(LOCATEFH);
+	print "New location is $SawLine\n";
+	return $SawLine;
+}
+
+print "Classic Mac Symlink Fixer - v$VERSION\n";
+print "Missing Files found: $NumFiles\n";
+print "=================================\n";
+
+foreach my $name (reverse sort keys %FileList)
+{
+	my $curfile = $FileList{$name};
+	my $file2locate = locatefile($curfile);
+	if ($file2locate eq "")
+	{
+		print "*** no current file found - deleting\n";
+		unlink($curfile);
+		next;
+	}
+	else
+	{
+		# Link the file to the new location
+		my $REQUESTINPUT = "";
+
+		# print("ln -s \"$file2locate\" \"$RepoDir/$curfile\"\n");
+		if ($AutoAccept eq "n")
+		{
+			print("Delete and relink this file? (y/a): ");
+			$REQUESTINPUT = <>;
+			chop ($REQUESTINPUT);
+		}
+		if ($REQUESTINPUT eq "a")
+		{
+			$AutoAccept = "y";
+		}
+		if (($REQUESTINPUT eq "y") || ($AutoAccept eq "y"))
+		{
+			unlink("$RepoDir/$curfile");
+			system("ln -s \"$file2locate\" \"$RepoDir/$curfile\"");
+			print "--- file relinked\n";
+		}
+	}
+	print "$curfile - $file2locate\n";
+}
+close ($fh);
+system($REMOVEDEL_CMD);
+exit 0;

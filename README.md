@@ -14,6 +14,7 @@ Included Utilities:
 - **file_announce** (1.8) - This posts a list of files that you have added using perladd.pl to the message base of your choice. It posts as content, not a attachment! The settings are in the file at the top. Especially note that you need to copy (and edit unless you want to promote my BBS 😄) the FilePost.txt & FilePostBottom.txt to /sbbs/exec. This version now handles long descriptions in the file list columns. Now allows command-line overrides of the default settings.
 - **file_remove** (1.0) - This removes a file from your processed list so it can be imported with perladd.pl again.
 - **updseen.pl** - Updates the perladd.pl /root/.seen file to fix issues - Not usually needed...
+- **fixsymlink** (1.0) - This fixes files that have been moved in the website folder tree.
 
 Basic Workflow
 ==
