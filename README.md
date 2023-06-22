@@ -1,4 +1,4 @@
-# BBS Utilities (1.17)
+# BBS Utilities (1.18)
 Command-line utilities for the SBBS software
 Official support sites: [Official Github Repo](https://github.com/fstltna/bbs_utils) - [Official Forum](https://synchronetbbs.org/index.php/forum/bbs-utils-suite-support) 
 ![Synchronet Logo](https://SynchronetBBS.org/SynchronetLogo.png) 
