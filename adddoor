@@ -1,13 +1,14 @@
 #!/usr/bin/perl
 
 # Settings
-my $TEMPLATE_FILE = "door_template.txt";	# The source to the door file
+my $DEBUG = "off";
+my $EXTERNFILE = "/sbbs/ctrl/xtrn.ini";	# The external list file
+my $JSONFILE = "/sbbs/ctrl/json-service.ini";	# The external json file
 my $EDITOR = $ENV{EDITOR};
 if ($EDITOR eq "")
 {
 	$EDITOR = "nano";
 }
-
 
 # ----------- No changes below here
 my $VERS = "1.0";
@@ -42,6 +43,14 @@ sub MyUsage
         print "adddoor edit \<doorfile\>\n";
         print "adddoor install \<doorfile\>\n";
         print "adddoor uninstall \<doorfile\>\n";
+}
+
+sub PrintDebug
+{
+	if ($DEBUG="on")
+	{
+		print "@_\n";
+	}
 }
 
 print "adddoor v$VERS - Add doors to your Synchronet BBS\n";
@@ -122,11 +131,11 @@ FILE_END
 sub parseline
 {
 	my $InputLine = @_[0];
-	# print "Inputline is $InputLine\n";
+	DebugPrint "Inputline is $InputLine\n";
 	my ($Command, $InputArgument) = split / = /, $InputLine;
 	$InputArgument = substr($InputArgument, 1);
 	$InputArgument = substr($InputArgument, 0, length($InputArgument) - 1);
-	# print "Saw Parseline $InputArgument\n";
+	DebugPrint "Saw Parseline $InputArgument\n";
 	return($InputArgument);
 }
 
@@ -145,7 +154,7 @@ sub ImportFile
 		{
 			next;
 		}
-		# print "Saw $row\n";
+		DebugPrint "Saw $row\n";
 		if ($row eq "")
 		{
 			next;
