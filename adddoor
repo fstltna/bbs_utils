@@ -284,16 +284,19 @@ sub InstallFile
 	# First import the file settings
 	print "Installing '$ARGV[1]':\n";
 	ImportFile();
+
+	# Now open extern file for append
 	open(my $fh, '>>', $EXTERNFILE) or die "Could not open file '$EXTERNFILE' for appending $!";
 
-	print ($fh "\[prog:$DOOR_ZZ:$DOOR_INTERNAL_CODE\]\n");
+	print ($fh "\[prog:$DOOR_PROG_SECT:$DOOR_INTERNAL_CODE\]\n");
 	print ($fh "name=$DOOR_NAME\n");
-	print ($fh "startup_dir=$DOOR_STARTUPDIR\n");
-	print ($fh "cmd=$DOOR_COMMAND_LINE\n");
-	print ($fh "clean_cmd=$DOOR_CLEANUP\n");
 	print ($fh "ars=$ACCESS_REQ\n");
 	print ($fh "execution_ars=$EXEC_REQ\n");
-	print ($fh "cost=$EXEC_COST\n");
+	print ($fh "cmd=$DOOR_COMMAND_LINE\n");
+	print ($fh "clean_cmd=$DOOR_CLEANUP\n");
+	print ($fh "startup_dir=$DOOR_STARTUPDIR\n");
+	print ($fh "cost=$DOOR_EXEC_COST\n");
+	print ($fh "max_time=$DOOR_TIME_OPTIONS\n");
 
 $DOOR_MULTI_CON = "YES";
 $DOOR_IO_METHOD = "IOMETHOD";
@@ -305,7 +308,6 @@ $DOOR_PAUSE_EXEC = "YES";
 $DOOR_DISABLE_LOCAL = "NO";
 $DOOR_DROP_FILE_TYPE = "NONE";
 $DOOR_PLACE_DROP = "DROPTYPE";
-$DOOR_TIME_OPTIONS = "";
 $DOOR_PROG_SECT = "";
 
 	close($fh);
