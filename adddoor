@@ -18,7 +18,9 @@ sub MyUsage
 {
         print "Invalid args - Execute the command as:\n";
         print "adddoor create \<doorfile\>\n";
+        print "adddoor edit \<doorfile\>\n";
         print "adddoor install \<doorfile\>\n";
+        print "adddoor uninstall \<doorfile\>\n";
 }
 
 print "adddoor v$VERS - Add doors to your Synchronet BBS\n";
@@ -29,25 +31,105 @@ if ($num_args != 2)
 	exit 0;
 }
 
-if ($ARGV[0] ne "create" && $ARGV[0] ne "install")
+if (($ARGV[0] ne "create") && ($ARGV[0] ne "install") && ($ARGV[0] ne "edit") && ($ARGV[0] ne "uninstall"))
 {
 	MyUsage();
 	exit;
 }
 
+# The template for the door config
 my $TemplateFile = <<'FILE_END';
-Foo
+# Enter the door name
+DOOR_NAME = "DOORNAME"
+
+# Enter internal code
+DOOR_INTERNAL_CODE = "DOORCODE"
+
+# Startup directory - Defaults to blank
+DOOR_STARTUPDIR = ""
+
+# Command Line
+DOOR_COMMAND_LINE = "COMMAND LINE"
+
+# Cleanup command - Defaults to blank
+DOOR_CLEANUP = ""
+
+# Execution Cost - Defaults to blank
+DOOR_EXEC_COST = ""
+
+# Access Requirements - Defaults to blank
+DOOR_ACCESS_REQ = ""
+
+# Execution Requirements - Defaults to blank
+DOOR_EXEC_REQ = ""
+
+# Multiple Concurrent Users
+DOOR_MULTI_CON = "YES"
+
+# I/O Method
+DOOR_IO_METHOD = "IOMETHOD"
+
+# Native Executable
+DOOR_IO_METHOD = "YES"
+
+# Use Shell
+DOOR_USE_SHELL = "NO"
+
+# Modify User Data
+DOOR_MODIFY_USER = "NO"
+
+# Execute On Event
+DOOR_EXECUTE_EVENT = "NO"
+
+# Pause After Execution
+DOOR_PAUSE_EXEC = "YES"
+
+# Disable Local Display
+DOOR_DISABLE_LOCAL = "NO"
+
+# BBS Drop File Type
+DOOR_DROP_FILE_TYPE = "NONE";
+
+# Place Drop File
+DOOR_PLACE_DROP = "DROPTYPE"
+
+# Time Options - Defaults to empty
+DOOR_TIME_OPTIONS = ""
+
 FILE_END
 
 sub CreateFile
 {
-	print "Creating door file '@_'\n";
-	open(my $fh, ">@_");
+	print "Creating door file '$ARGV[1]'\n";
+	open(my $fh, ">$ARGV[1]");
 	print $fh $TemplateFile;
 	close($fh);
-	system ("$EDITOR @_");
+	system ("$EDITOR $ARGV[1]");
 	print "File created\n";
 	exit 0;
+}
+
+sub EditFile
+{
+	if (-f $ARGV[1])
+	{
+		print "Editing door file '$ARGV[1]'\n";
+		system ("$EDITOR $ARGV[1]");
+	}
+	else
+	{
+		print "File '$ARGV[1]' doesn't exist\n";
+	}
+}
+
+sub InstallFile
+{
+	print "Install not implemented yet\n";
+}
+
+sub UninstallFile
+{
+	print "Uninstall not implemented yet\n";
 }
 
 if (($ARGV[0] eq "create") && (-f $ARGV[1]))
@@ -64,7 +146,21 @@ if (($ARGV[0] eq "create") && (-f $ARGV[1]))
 }
 if ($ARGV[0] eq "create")
 {
-	CreateFile($ARGV[1]);
+	CreateFile();
+}
+elsif ($ARGV[0] eq "edit")
+{
+	EditFile();
+	exit 0;
+}
+elsif ($ARGV[0] eq "install")
+{
+	InstallFile();
+	exit 0;
+}
+elsif ($ARGV[0] eq "uninstall")
+{
+	UninstallFile();
 	exit 0;
 }
 exit 0;
