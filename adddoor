@@ -1,0 +1,70 @@
+#!/usr/bin/perl
+
+# Settings
+my $TEMPLATE_FILE = "door_template.txt";	# The source to the door file
+my $EDITOR = $ENV{EDITOR};
+if ($EDITOR eq "")
+{
+	$EDITOR = "nano";
+}
+
+
+# ----------- No changes below here
+my $VERS = "1.0";
+
+my $num_args = $#ARGV + 1;
+
+sub MyUsage
+{
+        print "Invalid args - Execute the command as:\n";
+        print "adddoor create \<doorfile\>\n";
+        print "adddoor install \<doorfile\>\n";
+}
+
+print "adddoor v$VERS - Add doors to your Synchronet BBS\n";
+print "===================================================\n";
+if ($num_args != 2)
+{
+	MyUsage();
+	exit 0;
+}
+
+if ($ARGV[0] ne "create" && $ARGV[0] ne "install")
+{
+	MyUsage();
+	exit;
+}
+
+my $TemplateFile = <<'FILE_END';
+Foo
+FILE_END
+
+sub CreateFile
+{
+	print "Creating door file '@_'\n";
+	open(my $fh, ">@_");
+	print $fh $TemplateFile;
+	close($fh);
+	system ("$EDITOR @_");
+	print "File created\n";
+	exit 0;
+}
+
+if (($ARGV[0] eq "create") && (-f $ARGV[1]))
+{
+	print "File '$ARGV[1]' already exists - overwrite\? y/N:";
+        my $entered = <STDIN>;
+	$entered = lc($entered);
+        chop($entered);
+	if ($entered ne "y")
+	{
+		print "Aborting...\n";
+		exit 0;
+	}
+}
+if ($ARGV[0] eq "create")
+{
+	CreateFile($ARGV[1]);
+	exit 0;
+}
+exit 0;
