@@ -14,6 +14,27 @@ my $VERS = "1.0";
 
 my $num_args = $#ARGV + 1;
 
+# Default settings
+my $DOOR_NAME = "DOORNAME";
+my $DOOR_INTERNAL_CODE = "DOORCODE";
+my $DOOR_STARTUPDIR = "";
+my $DOOR_COMMAND_LINE = "COMMAND LINE";
+my $DOOR_CLEANUP = "";
+my $DOOR_EXEC_COST = "";
+my $DOOR_ACCESS_REQ = "";
+my $DOOR_EXEC_REQ = "";
+my $DOOR_MULTI_CON = "YES";
+my $DOOR_IO_METHOD = "IOMETHOD";
+my $DOOR_IO_METHOD = "YES";
+my $DOOR_USE_SHELL = "NO";
+my $DOOR_MODIFY_USER = "NO";
+my $DOOR_EXECUTE_EVENT = "NO";
+my $DOOR_PAUSE_EXEC = "YES";
+my $DOOR_DISABLE_LOCAL = "NO";
+my $DOOR_DROP_FILE_TYPE = "NONE";
+my $DOOR_PLACE_DROP = "DROPTYPE";
+my $DOOR_TIME_OPTIONS = "";
+
 sub MyUsage
 {
         print "Invalid args - Execute the command as:\n";
@@ -88,7 +109,7 @@ DOOR_PAUSE_EXEC = "YES"
 DOOR_DISABLE_LOCAL = "NO"
 
 # BBS Drop File Type
-DOOR_DROP_FILE_TYPE = "NONE";
+DOOR_DROP_FILE_TYPE = "NONE"
 
 # Place Drop File
 DOOR_PLACE_DROP = "DROPTYPE"
@@ -97,6 +118,126 @@ DOOR_PLACE_DROP = "DROPTYPE"
 DOOR_TIME_OPTIONS = ""
 
 FILE_END
+
+sub parseline
+{
+	my $InputLine = @_[0];
+	# print "Inputline is $InputLine\n";
+	my ($Command, $InputArgument) = split / = /, $InputLine;
+	$InputArgument = substr($InputArgument, 1);
+	$InputArgument = substr($InputArgument, 0, length($InputArgument) - 1);
+	# print "Saw Parseline $InputArgument\n";
+	return($InputArgument);
+}
+
+sub ImportFile
+{
+	if (!-f $ARGV[1])
+	{
+		print "File '$ARGV[1]' doesn't exist\n";
+		exit 0;
+	}
+	open(my $fh, '<', $ARGV[1]) or die "Could not open file '$ARGV[1]' $!";
+	while (my $row = <$fh>)
+	{
+		chop($row);
+		if (substr($row, 0, 1) eq "#")
+		{
+			next;
+		}
+		# print "Saw $row\n";
+		if ($row eq "")
+		{
+			next;
+		}
+		if (substr($row, 0, 4) ne "DOOR")
+		{
+			print "Saw invalid line: '$row' - skipping\n";
+			next;
+		}
+		if (substr($row, 0, 9) eq "DOOR_NAME")
+		{
+			$DOOR_NAME = parseline($row);
+		}
+		elsif (substr($row, 0, 18) eq "DOOR_INTERNAL_CODE")
+		{
+			$DOOR_INTERNAL_CODE = parseline($row);
+		}
+		elsif (substr($row, 0, 15) eq "DOOR_STARTUPDIR")
+		{
+			$DOOR_STARTUPDIR = parseline($row);
+		}
+		elsif (substr($row, 0, 17) eq "DOOR_COMMAND_LINE")
+		{
+			$DOOR_COMMAND_LINE = parseline($row);
+		}
+		elsif (substr($row, 0, 12) eq "DOOR_CLEANUP")
+		{
+			$DOOR_CLEANUP = parseline($row);
+		}
+		elsif (substr($row, 0, 14) eq "DOOR_EXEC_COST")
+		{
+			$DOOR_EXEC_COST = parseline($row);
+		}
+		elsif (substr($row, 0, 15) eq "DOOR_ACCESS_REQ")
+		{
+			$DOOR_ACCESS_REQ = parseline($row);
+		}
+		elsif (substr($row, 0, 13) eq "DOOR_EXEC_REQ")
+		{
+			$DOOR_EXEC_REQ = parseline($row);
+		}
+		elsif (substr($row, 0, 14) eq "DOOR_MULTI_CON")
+		{
+			$DOOR_MULTI_CON = parseline($row);
+		}
+		elsif (substr($row, 0, 14) eq "DOOR_IO_METHOD")
+		{
+			$DOOR_IO_METHOD = parseline($row);
+		}
+		elsif (substr($row, 0, 14) eq "DOOR_IO_METHOD")
+		{
+			$DOOR_IO_METHOD = parseline($row);
+		}
+		elsif (substr($row, 0, 14) eq "DOOR_USE_SHELL")
+		{
+			$DOOR_USE_SHELL = parseline($row);
+		}
+		elsif (substr($row, 0, 16) eq "DOOR_MODIFY_USER")
+		{
+			$DOOR_MODIFY_USER = parseline($row);
+		}
+		elsif (substr($row, 0, 18) eq "DOOR_EXECUTE_EVENT")
+		{
+			$DOOR_EXECUTE_EVENT = parseline($row);
+		}
+		elsif (substr($row, 0, 15) eq "DOOR_PAUSE_EXEC")
+		{
+			$DOOR_PAUSE_EXEC = parseline($row);
+		}
+		elsif (substr($row, 0, 15) eq "DOOR_PAUSE_EXEC")
+		{
+			$DOOR_PAUSE_EXEC = parseline($row);
+		}
+		elsif (substr($row, 0, 18) eq "DOOR_DISABLE_LOCAL")
+		{
+			$DOOR_DISABLE_LOCAL = parseline($row);
+		}
+		elsif (substr($row, 0, 19) eq "DOOR_DROP_FILE_TYPE")
+		{
+			$DOOR_DROP_FILE_TYPE = parseline($row);
+		}
+		elsif (substr($row, 0, 15) eq "DOOR_PLACE_DROP")
+		{
+			$DOOR_PLACE_DROP = parseline($row);
+		}
+		elsif (substr($row, 0, 17) eq "DOOR_TIME_OPTIONS")
+		{
+			$DOOR_TIME_OPTIONS = parseline($row);
+		}
+	}
+	close ($fh);
+}
 
 sub CreateFile
 {
@@ -124,7 +265,9 @@ sub EditFile
 
 sub InstallFile
 {
-	print "Install not implemented yet\n";
+	# First import the file settings
+	print "Installing '$ARGV[1]':\n";
+	ImportFile();
 }
 
 sub UninstallFile
