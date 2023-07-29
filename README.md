@@ -1,4 +1,4 @@
-# BBS Utilities (1.18)
+# BBS Utilities (1.19)
 Command-line utilities for the SBBS software
 Official support sites: [Official Github Repo](https://github.com/fstltna/bbs_utils) - [Official Forum](https://synchronetbbs.org/index.php/forum/bbs-utils-suite-support) 
 ![Synchronet Logo](https://SynchronetBBS.org/SynchronetLogo.png) 
@@ -15,6 +15,7 @@ Included Utilities:
 - **file_remove** (1.0) - This removes a file from your processed list so it can be imported with perladd.pl again.
 - **updseen.pl** - Updates the perladd.pl /root/.seen file to fix issues - Not usually needed...
 - **fixsymlink** (1.0) - This fixes files that have been moved in the website folder tree.
+- **adddoor** - Add/Edit/Remove a door semi-automaticaly
 
 Basic Workflow
 ==
