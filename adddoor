@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # Settings
-my $DEBUG = "off";
+my $DEBUG = "off";	# Set to "yes" to turn it on
 my $EXTERNFILE = "/sbbs/ctrl/xtrn.ini";	# The external list file
 my $EDITOR = $ENV{EDITOR};
 if ($EDITOR eq "")
@@ -15,6 +15,7 @@ my $VERS = "1.0";
 my $num_args = $#ARGV + 1;
 
 # Default settings
+my $DOOR_PROG_SECT = "";
 my $DOOR_NAME = "DOORNAME";
 my $DOOR_INTERNAL_CODE = "DOORCODE";
 my $DOOR_STARTUPDIR = "";
@@ -34,7 +35,6 @@ my $DOOR_DISABLE_LOCAL = "NO";
 my $DOOR_DROP_FILE_TYPE = "NONE";
 my $DOOR_PLACE_DROP = "DROPTYPE";
 my $DOOR_TIME_OPTIONS = "";
-my $DOOR_PROG_SECT = "";
 
 sub MyUsage
 {
@@ -69,6 +69,9 @@ if (($ARGV[0] ne "create") && ($ARGV[0] ne "install") && ($ARGV[0] ne "edit") &&
 
 # The template for the door config
 my $TemplateFile = <<'FILE_END';
+# Door Section
+DOOR_PROG_SECT = ""
+
 # Enter the door name
 DOOR_NAME = "DOORNAME"
 
@@ -126,19 +129,16 @@ DOOR_PLACE_DROP = "DROPTYPE"
 # Time Options - Defaults to empty
 DOOR_TIME_OPTIONS = ""
 
-# Door Section
-DOOR_PROG_SECT = ""
-
 FILE_END
 
 sub parseline
 {
 	my $InputLine = @_[0];
-	DebugPrint "Inputline is $InputLine\n";
+	DebugPrint("Inputline is $InputLine\n");
 	my ($Command, $InputArgument) = split / = /, $InputLine;
 	$InputArgument = substr($InputArgument, 1);
 	$InputArgument = substr($InputArgument, 0, length($InputArgument) - 1);
-	DebugPrint "Saw Parseline $InputArgument\n";
+	DebugPrint("Saw Parseline $InputArgument\n");
 	return($InputArgument);
 }
 
@@ -157,7 +157,7 @@ sub ImportFile
 		{
 			next;
 		}
-		DebugPrint "Saw $row\n";
+		DebugPrint("Saw $row\n");
 		if ($row eq "")
 		{
 			next;
