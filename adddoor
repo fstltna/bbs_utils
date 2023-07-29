@@ -3,7 +3,6 @@
 # Settings
 my $DEBUG = "off";
 my $EXTERNFILE = "/sbbs/ctrl/xtrn.ini";	# The external list file
-my $JSONFILE = "/sbbs/ctrl/json-service.ini";	# The external json file
 my $EDITOR = $ENV{EDITOR};
 if ($EDITOR eq "")
 {
@@ -35,6 +34,7 @@ my $DOOR_DISABLE_LOCAL = "NO";
 my $DOOR_DROP_FILE_TYPE = "NONE";
 my $DOOR_PLACE_DROP = "DROPTYPE";
 my $DOOR_TIME_OPTIONS = "";
+my $DOOR_PROG_SECT = "";
 
 sub MyUsage
 {
@@ -125,6 +125,9 @@ DOOR_PLACE_DROP = "DROPTYPE"
 
 # Time Options - Defaults to empty
 DOOR_TIME_OPTIONS = ""
+
+# Door Section
+DOOR_PROG_SECT = ""
 
 FILE_END
 
@@ -244,6 +247,10 @@ sub ImportFile
 		{
 			$DOOR_TIME_OPTIONS = parseline($row);
 		}
+		elsif (substr($row, 0, 14) eq "$DOOR_PROG_SECT")
+		{
+			$DOOR_PROG_SECT = parseline($row);
+		}
 	}
 	close ($fh);
 }
@@ -277,6 +284,31 @@ sub InstallFile
 	# First import the file settings
 	print "Installing '$ARGV[1]':\n";
 	ImportFile();
+	open(my $fh, '>>', $EXTERNFILE) or die "Could not open file '$EXTERNFILE' for appending $!";
+
+	print ($fh "\[prog:$DOOR_ZZ:$DOOR_INTERNAL_CODE\]\n");
+	print ($fh "name=$DOOR_NAME\n");
+	print ($fh "startup_dir=$DOOR_STARTUPDIR\n");
+	print ($fh "cmd=$DOOR_COMMAND_LINE\n");
+	print ($fh "clean_cmd=$DOOR_CLEANUP\n");
+	print ($fh "ars=$ACCESS_REQ\n");
+	print ($fh "execution_ars=$EXEC_REQ\n");
+	print ($fh "cost=$EXEC_COST\n");
+
+$DOOR_MULTI_CON = "YES";
+$DOOR_IO_METHOD = "IOMETHOD";
+$DOOR_IO_METHOD = "YES";
+$DOOR_USE_SHELL = "NO";
+$DOOR_MODIFY_USER = "NO";
+$DOOR_EXECUTE_EVENT = "NO";
+$DOOR_PAUSE_EXEC = "YES";
+$DOOR_DISABLE_LOCAL = "NO";
+$DOOR_DROP_FILE_TYPE = "NONE";
+$DOOR_PLACE_DROP = "DROPTYPE";
+$DOOR_TIME_OPTIONS = "";
+$DOOR_PROG_SECT = "";
+
+	close($fh);
 }
 
 sub UninstallFile
