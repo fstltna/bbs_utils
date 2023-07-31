@@ -5,7 +5,13 @@ if ($#ARGV + 1 != 1)
 	print "Need to specify the file you want to add\n";
 	exit 0;
 }
-
-system("/sbbs/exec/jsexec install-xtrn $ARGV[0]");
+my $DoorPath = $ARGV[0];
+if (substr($DoorPath, 0, 2) ne "..")
+{
+	print "Full path to file not specified, adding default: ";
+	$DoorPath = "../doors/$DoorPath";
+	print "$DoorPath\n";
+}
+system("/sbbs/exec/jsexec install-xtrn $DoorPath");
 
 exit 0;

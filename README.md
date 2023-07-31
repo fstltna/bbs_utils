@@ -15,7 +15,7 @@ Included Utilities:
 - **file_remove** (1.0) - This removes a file from your processed list so it can be imported with perladd.pl again.
 - **updseen.pl** - Updates the perladd.pl /root/.seen file to fix issues - Not usually needed...
 - **fixsymlink** (1.0) - This fixes files that have been moved in the website folder tree.
-- **adddoor** - Add a door to your BBS
+- **adddoor** (1.1) - Add a door to your BBS
 
 Basic Workflow
 ==
