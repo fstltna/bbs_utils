@@ -19,7 +19,7 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 # == No changes below here
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.8";
+my $VERSION = "1.8.1";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
@@ -158,7 +158,7 @@ if (! -f "$NEWFILESFILE")
 {
 	print "No files queued\n";
 	exit 0;
-}	
+}
 
 open(NEWFILES, "<$NEWFILESFILE") || die "Unable to open $NEWFILESFILE for input";
 
