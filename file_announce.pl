@@ -154,6 +154,12 @@ open(TEMPFILE, ">$TempName") || die "Unable to create temp file $TempName";
 print (TEMPFILE $content);
 
 # Read the list of files added
+if (! -f "$NEWFILESFILE")
+{
+	print "No files queued\n";
+	exit 0;
+}	
+
 open(NEWFILES, "<$NEWFILESFILE") || die "Unable to open $NEWFILESFILE for input";
 
 my $csv = Text::CSV->new();

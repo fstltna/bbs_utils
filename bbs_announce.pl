@@ -11,7 +11,7 @@ my $MSGBODYFILE = "/sbbs/exec/Announce.txt";
 use Getopt::Long;
 
 # == No changes below here
-my $VERSION = "1.4";
+my $VERSION = "1.4.1";
 my $USAGE;
 my $CONF_FILE = "/root/.ba_settings";	# Settings to use
 
