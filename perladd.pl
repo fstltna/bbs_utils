@@ -33,6 +33,32 @@ my $DefaultLength = length($DefaultText);
 my $WARN_ITEMS=10;
 my $WC_COMMAND="/usr/bin/wc";
 
+sub QueueItems
+{
+	my $ItemCount = 0;
+	if (!-f $NEWFILES)
+	{
+		print "No items in the posting queue\n";
+		return 0;
+	}
+	open(INPF, "<$NEWFILES") || die "Unable to open input file $NEWFILES";
+
+	while(<INPF>)
+	{
+		$ItemCount += 1;
+	}
+	close(INPF);
+	if ($_[0] eq "queueitems")
+	{
+		print "Currently there are $ItemCount items in the posting queue\n";
+	}
+	if ($ItemCount > $WARN_ITEMS)
+	{
+		print "More than $WARN_ITEMS in posting queue. Please run file_announce.pl\n";
+	}
+}
+
+# Save seen file hash
 print("perladd.pl - Version $VERSION\n");
 print("Checking for saved files hash\n");
 
@@ -143,12 +169,22 @@ sub CopyFile
 
 # quit unless we have the correct number of command-line args
 my $num_args = $#ARGV + 1;
+if ($num_args == 1) {
+	if ($ARGV[0] eq "inqueue")
+	{
+		QueueItems("queueitems");
+		exit 0;
+	}
+}
+
 if ($num_args != 2) {
     print "Incorrect number of arguments\n";
     print "Usage: perladd.pl <BBSFILEDIR> [long|link|existing]\n";
     print "\tlong - Prompts for extended file descriptions, otherwise same as link - reccommended as default\n";
     print "\texisting - use existing files\n";
     print "\tlink - links rather than using existing files\n";
+    print "--or--\n";
+    print "Usage: perladd.pl inqueue - lists number of items in the queue to post\n";
     ListDirs();
     close(OUTF);
     exit;
@@ -247,30 +283,11 @@ while (readdir $dh) {
 }
 closedir $dh;
 
-sub QueueItems
-{
-	my $ItemCount = 0;
-	if (!-f $NEWFILES)
-	{
-		return 0;
-	}
-	open(INPF, "<$NEWFILES") || die "Unable to open input file $NEWFILES";
-
-	while(<INPF>)
-	{
-		$ItemCount += 1;
-	}
-	close(INPF);
-	if ($ItemCount > $WARN_ITEMS)
-	{
-		print "More than $WARN_ITEMS in posting queue. Please run file_announce.pl\n";
-	}
-}
-
 # Save seen file hash
 store (\%SEEN_HASH, $SEEN_FILE);
 print("Saved seen file hash to $SEEN_FILE\n");
 
 close(OUTF);
+QueueItems();
 
 exit 0;
