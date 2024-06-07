@@ -11,7 +11,7 @@ my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.31";
+my $VERSION="1.32";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
@@ -30,6 +30,8 @@ my $EDITOR="";
 my $Aborted=0;
 my $DefaultText = "Replace this with a description for";
 my $DefaultLength = length($DefaultText);
+my $WARN_ITEMS=10;
+my $WC_COMMAND="/usr/bin/wc";
 
 print("perladd.pl - Version $VERSION\n");
 print("Checking for saved files hash\n");
@@ -245,9 +247,30 @@ while (readdir $dh) {
 }
 closedir $dh;
 
+sub QueueItems
+{
+	my $ItemCount = 0;
+	if (!-f $NEWFILES)
+	{
+		return 0;
+	}
+	open(INPF, "<$NEWFILES") || die "Unable to open input file $NEWFILES";
+
+	while(<INPF>)
+	{
+		$ItemCount += 1;
+	}
+	close(INPF);
+	if ($ItemCount > $WARN_ITEMS)
+	{
+		print "More than $WARN_ITEMS in posting queue. Please run file_announce.pl\n";
+	}
+}
+
 # Save seen file hash
 store (\%SEEN_HASH, $SEEN_FILE);
 print("Saved seen file hash to $SEEN_FILE\n");
 
 close(OUTF);
+
 exit 0;
