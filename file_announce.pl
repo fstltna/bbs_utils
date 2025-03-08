@@ -143,7 +143,7 @@ if ($ShowSettings)
 
 if ($USAGE)
 {
-	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n\t--discord = flag to post to Discord\n\t--discordon = Post to Discord by default\n\t--discordoff = Do not post to Discord by default\n\t--settings = Displays the settings that will be used\n");
+	print("Usage:\n\t--bbssubj = BBS Announce Subject\n\t--bbsowner = BBS Announce Owner\n\t--group = Group to post announcement to\n\t--msgbody = Message body file\n\t--msgbodybot = Message body bottom file\n\t--discord = flag to post to Discord\n\t--discordon = Post to Discord by default\n\t--discordoff = Do not post to Discord by default\n\t--settings = Displays the settings that will be used\n\t--prefs = Edit the posting configuration\n");
 	exit 0;
 }
 
