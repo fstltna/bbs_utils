@@ -19,7 +19,7 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 # == No changes below here
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.8.1";
+my $VERSION = "1.8.2";
 my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
@@ -28,6 +28,8 @@ my $discordoff = "";
 my $CONF_FILE = "/root/.fa_settings";	# Settings to use
 my $TempName = "/tmp/fileann.tmp";
 my $DiscordText = "Added the following files:";
+my $FILE_EDIT = "/usr/bin/nano";
+my $EDITCONF;
 
 # Try and pull in configs
 if (-e $CONF_FILE)
@@ -66,6 +68,25 @@ if (-e $CONF_FILE)
 	close(INPF);
 }
 
+sub EditPrefs
+{
+	# Create the defaults
+	if (! -f $CONF_FILE)
+	{
+		# Doesnt exist, creating it
+		open(FH, '>', $CONF_FILE) or die $!;
+		print FH "bbssubj=New files uploaded at YOURBBS\n";
+		print FH "bbsowner=YOURBBS BBS Admin\n";
+		#print FH "group=DOVE-ADS USENET_MACMISC USENET_MACADV\n";
+		print FH "group=DOVE-ADS\n";
+		print FH "webhook=YOURDISCORDHOOK\n";
+		close(FH);
+	}
+	# Edit this file
+	system("$FILE_EDIT $CONF_FILE");
+	exit 0;
+}
+
 my $JSEXEC = "jsexec postmsg.js -i\"$TempName\" -tALL -f\"$BBSOWNER\" -s\"$BBSSUBJ\" $GROUP";
 
 print "Running file_announce $VERSION\n";
@@ -82,10 +103,24 @@ GetOptions ("length=i" => \$length,    # numeric
             "discordon"    => \$discordon,      # string
             "discordoff"    => \$discordoff,      # string
             "settings"    => \$ShowSettings,      # string
+            "prefs"    => \$EDITCONF,      # flag
             "help"    => \$USAGE,      # string
             "verbose"  => \$verbose)   # flag
 or die("Error in command line arguments\n");
 
+if (! -f $CONF_FILE)
+{
+	print "Settings file not found, editing...\n";
+	sleep 3;
+	EditPrefs();
+	exit 0;
+}
+
+if ($EDITCONF)
+{
+	EditPrefs();
+	exit 0;
+}
 if ($ShowSettings)
 {
 	print "\tCurrent Settings\n";
