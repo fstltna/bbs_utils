@@ -12,7 +12,7 @@ my $ADD_PROG="jsexec /sbbs/exec/addfiles.js";	# The command to add files to BBS 
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
 my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
 my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.33";
+my $VERSION="1.34";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here
@@ -163,7 +163,8 @@ sub CopyFile
 	print($FILEID "$dest_file $LongFileName\n              $BBS_DESC\n");
 	#print($FILEID "$LongFileName\n              $BBS_DESC\n");
 	close($FILEID);
-	system("$ADD_PROG $BBS_DIR -i \"+$DEST_DIR/$FILEIDFILE\"");
+	#system("$ADD_PROG $BBS_DIR -i \"+$DEST_DIR/$FILEIDFILE\"");
+	system("$ADD_PROG $BBS_DIR");
 	print(OUTF "\"$SOURCE_DIR\",\"$CUR_FILE\",\"$DEST_DIR\",\"$dest_file\",\"$filesize\"\n");
 	unlink("$DEST_DIR/$FILEIDFILE");
 }
