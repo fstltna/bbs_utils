@@ -1,26 +1,27 @@
-           $$$$$$\                $$\                     
-          $$  __$$\               \__|                    
-          $$ /  $$ |$$$$$$\$$$$\  $$\  $$$$$$\   $$$$$$\  
-          $$$$$$$$ |$$  _$$  _$$\ $$ |$$  __$$\  \____$$\ 
-          $$  __$$ |$$ / $$ / $$ |$$ |$$ /  $$ | $$$$$$$ |
-          $$ |  $$ |$$ | $$ | $$ |$$ |$$ |  $$ |$$  __$$ |
-          $$ |  $$ |$$ | $$ | $$ |$$ |\$$$$$$$ |\$$$$$$$ |
-          \__|  \__|\__| \__| \__|\__| \____$$ | \_______|
-                                      $$\   $$ |          
-                                      \$$$$$$  |          
-                                       \______/           
-           $$$$$$\  $$\   $$\                             
-          $$  __$$\ \__|  $$ |                            
-          $$ /  \__|$$\ $$$$$$\   $$\   $$\               
-          $$ |      $$ |\_$$  _|  $$ |  $$ |              
-          $$ |      $$ |  $$ |    $$ |  $$ |              
-          $$ |  $$\ $$ |  $$ |$$\ $$ |  $$ |              
-          \$$$$$$  |$$ |  \$$$$  |\$$$$$$$ |              
-           \______/ \__|   \____/  \____$$ |              
-                                  $$\   $$ |              
-                                  \$$$$$$  |              
-                                   \______/               
+___    __                    ___                         68b        
+`MM    d'  68b                `MM                         Y89        
+ MM   d'  Y89                 MM                          9         
+ MM  d'   ___ ___  __     ____MM   _____  ___  __    __  /   ____   
+ MM d'    `MM `MM 6MMb   6MMMMMM  6MMMMMb `MM 6MMb  6MMb    6MMMMb\ 
+ MMd'      MM  MMM9 `Mb 6M'  `MM 6M'   `Mb MM69 `MM69 `Mb  MM'    ` 
+ MMYM.     MM  MM'   MM MM    MM MM     MM MM'   MM'   MM  YM.      
+ MM YM.    MM  MM    MM MM    MM MM     MM MM    MM    MM   YMMMMb  
+ MM  YM.   MM  MM    MM MM    MM MM     MM MM    MM    MM       `Mb 
+ MM   YM.  MM  MM    MM YM.  ,MM YM.   ,M9 MM    MM    MM  L    ,MM 
+_MM_   YM._MM__MM_  _MM_ YMMMMMM_ YMMMMM9 _MM_  _MM_  _MM_ MYMMMM9  
 
-==========================================================================
-Host: AmigaCity.xyz       Port: 23       Website: https://AmigaCity.xyz
-==========================================================================
+__________                ___       ________  ________     ____     
+`MMMMMMMMM                `MM       `MMMMMMMb.`MMMMMMMb.  6MMMMb\   
+ MM      \                 MM        MM    `Mb MM    `Mb 6M'    `   
+ MM        ___  __     ____MM        MM     MM MM     MM MM         
+ MM    ,   `MM 6MMb   6MMMMMM        MM    .M9 MM    .M9 YM.        
+ MMMMMMM    MMM9 `Mb 6M'  `MM        MMMMMMM(  MMMMMMM(   YMMMMb    
+ MM    `    MM'   MM MM    MM        MM    `Mb MM    `Mb      `Mb   
+ MM         MM    MM MM    MM        MM     MM MM     MM       MM   
+ MM         MM    MM MM    MM        MM     MM MM     MM       MM   
+ MM      /  MM    MM YM.  ,MM        MM    .M9 MM    .M9 L    ,M9   
+_MMMMMMMMM _MM_  _MM_ YMMMMMM_      _MMMMMMM9'_MMMMMMM9' MYMMMM9    
+
+===========================================================================
+Host: Kingdom's End BBS  Port: 23  Website: https://sbbs.kingdomsendbbs.net
+===========================================================================

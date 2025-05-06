@@ -10,9 +10,9 @@ use Storable;		# For loading & saving variables
 my $ADD_PROG="jsexec /sbbs/exec/addfiles.js";	# The command to add files to BBS file area
 #my $ADD_PROG="/sbbs/exec/addfiles";	# The command to add files to BBS file area
 my $BBS_DATA="/sbbs/data/dirs";		# The directory the other file dirs live under
-my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
-my $NEWFILES="/root/.newfiles";		# Stores the list of files we have added but not posted about
-my $VERSION="1.34";
+my $SEEN_FILE="/home/bbsowner/.fileseen";		# Stores the list of files we have seen already
+my $NEWFILES="/home/bbsowner/.newfiles";		# Stores the list of files we have added but not posted about
+my $VERSION="1.35";
 my $BBS_DESC_LEN=256;
 
 # Init vars - don't change anything below here

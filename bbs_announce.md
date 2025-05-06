@@ -12,7 +12,7 @@ Install Steps:
 6. If all looks good you can set up a cron job to run no more often than once per day - please no spam!
 Here is a example cronjob entry:
 
-	01 01 * * * /root/bbs_utils/bbs_announce.pl
+	01 01 * * * /home/bbsowner/bbs_utils/bbs_announce.pl
 
 Getting Message Group IDs:
 ==

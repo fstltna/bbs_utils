@@ -7,7 +7,7 @@ use Cwd qw(cwd);	# Load in cwd command
 use Storable;		# For loading & saving variables
 
 # Globals
-my $SEEN_FILE="/root/.fileseen";		# Stores the list of files we have seen already
+my $SEEN_FILE="/home/bbsowner/.fileseen";		# Stores the list of files we have seen already
 
 # Init vars - don't change anything below here
 my %SEEN_HASH=();

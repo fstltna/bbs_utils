@@ -19,13 +19,13 @@ my $MSGBODYBOTTOMFILE = "/sbbs/exec/FilePostBottom.txt";
 # == No changes below here
 my $content = "";
 my $contentbottom = "";
-my $VERSION = "1.8.2";
-my $NEWFILESFILE="/root/.newfiles";         # Stores the list of files we have added but not posted about
+my $VERSION = "1.9.0";
+my $NEWFILESFILE="/home/bbsowner/.newfiles";         # Stores the list of files we have added but not posted about
 my $USAGE;
 my $discord = "";
 my $discordon = "";
 my $discordoff = "";
-my $CONF_FILE = "/root/.fa_settings";	# Settings to use
+my $CONF_FILE = "/home/bbsowner/.fa_settings";	# Settings to use
 my $TempName = "/tmp/fileann.tmp";
 my $DiscordText = "Added the following files:";
 my $FILE_EDIT = "/usr/bin/nano";
@@ -129,7 +129,7 @@ if ($ShowSettings)
 	print "\tUser to post as:\t$BBSOWNER\n";
 	print "\tGroups To Post To:\t$GROUP\n";
 	print "\tDiscord Webhook:\t$DISCORD_WEBHOOK\n\n";
-	if (-f "/root/.discordon")
+	if (-f "/home/bbsowner/.discordon")
 	{
 		print "\tPosting to Discord by default\n";
 	}
@@ -147,23 +147,23 @@ if ($USAGE)
 	exit 0;
 }
 
-if (-f "/root/.discordon")
+if (-f "/home/bbsowner/.discordon")
 {
 	$discord = "defaulton";
 }
 
 if ($discordon)
 {
-	system("touch /root/.discordon");
+	system("touch /home/bbsowner/.discordon");
 	print "--- Discord on by default\n";
 	exit 0;
 }
 
 if ($discordoff)
 {
-	if (-f "/root/.discordon")
+	if (-f "/home/bbsowner/.discordon")
 	{
-		unlink("/root/.discordon");
+		unlink("/home/bbsowner/.discordon");
 	}
 		print "--- Discord off by default\n";
 	exit 0;

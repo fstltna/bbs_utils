@@ -11,9 +11,9 @@ my $MSGBODYFILE = "/sbbs/exec/Announce.txt";
 use Getopt::Long;
 
 # == No changes below here
-my $VERSION = "1.4.1";
+my $VERSION = "1.5.0";
 my $USAGE;
-my $CONF_FILE = "/root/.ba_settings";	# Settings to use
+my $CONF_FILE = "/home/bbsowner/.ba_settings";	# Settings to use
 
 GetOptions ("length=i" => \$length,    # numeric
             "bbssubj=s" => \$BBSSUBJ,      # string
